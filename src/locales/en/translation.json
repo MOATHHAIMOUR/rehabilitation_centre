@@ -1,0 +1,17 @@
+{
+    "SafeType": "",
+    "SideBar": {
+        "OpenNewForm": "إنشاء إستماره جديدة"
+    },
+    "NewApplicantForm": {
+        "PageTitle": "إنشاء إستماره جديدة ",
+        "personalInfo": "Personal Information",
+        "ApplicantClassification": "Applicant Classification",
+        "ApplicantEducationalInfo": "Educational Information",
+        "ApplicantParentsInfo": "Parents' Information",
+        "ApplicantWorkInfo": "Work Information",
+        "ApplicantRelativeInfo": "Relative Information",
+        "ApplicantInsuranceInfo": "Insurance Information",
+        "ApplicantComplaints": "Complaints"
+    }
+}

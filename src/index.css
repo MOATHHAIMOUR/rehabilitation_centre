@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary-bg: 24, 24, 24;
+    --primary-text: 255, 255, 255;
+    --primary-text-hover: 255, 255, 255;
+  }
+
+  .dark {
+    /* Default_BG */
+    --primary-bg: 24, 24, 24;
+    --primary-text: 255, 255, 255;
+  }
+}
+
+[dir="ltr"] .sidebar {
+  left: 0;
+}
+
+[dir="rtl"] .sidebar {
+  right: 0;
+}
+
+.text-align {
+  @apply text-start;
+}
+
+[dir="rtl"] .text-align {
+  @apply text-right;
+}
+
+.flex-direction {
+  @apply flex items-center gap-3;
+}
+
+[dir="rtl"] .flex-direction {
+  @apply flex-row-reverse;
+}
