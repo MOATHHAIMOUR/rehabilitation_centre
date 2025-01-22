@@ -19,13 +19,14 @@ export const applicantTapsData: Array<IGenreicTaps<TAddNewApplicantTaps>> = [
     Title: "NewApplicantForm.ApplicantComplaints",
   },
   {
-    Tap: "ApplicantParentsInfo",
-    Title: "NewApplicantForm.ApplicantParentsInfo",
-  },
-  {
     Tap: "ApplicantWorkInfo",
     Title: "NewApplicantForm.ApplicantWorkInfo",
   },
+  {
+    Tap: "ApplicantParentsInfo",
+    Title: "NewApplicantForm.ApplicantParentsInfo",
+  },
+
   {
     Tap: "ApplicantRelativeInfo",
     Title: "NewApplicantForm.ApplicantRelativeInfo",

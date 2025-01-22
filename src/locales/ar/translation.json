@@ -13,5 +13,16 @@
         "ApplicantRelativeInfo": "معلومات الأقارب",
         "ApplicantInsuranceInfo": "معلومات التأمين",
         "ApplicantComplaints": "الشكاوى"
+    },
+    "QuestionPage": {
+        "PageTitle": "نظام إدارة الأسئلة الشامل ",
+        "personalInfo": "المعلومات الشخصية",
+        "ApplicantClassification": "تصنيف المتقدم",
+        "ApplicantEducationalInfo": "المعلومات التعليمية",
+        "ApplicantParentsInfo": "معلومات الوالدين",
+        "ApplicantWorkInfo": "المعلومات الوظيفية",
+        "ApplicantRelativeInfo": "معلومات الأقارب",
+        "ApplicantInsuranceInfo": "معلومات التأمين",
+        "ApplicantComplaints": "الشكاوى"
     }
 }

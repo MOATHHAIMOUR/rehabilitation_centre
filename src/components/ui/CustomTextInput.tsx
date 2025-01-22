@@ -29,7 +29,7 @@ const CustomTextInput = forwardRef<HTMLInputElement, IProps>(
       <div key={key} className={`relative ${className}`}>
         <label
           htmlFor={name}
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-gray-700 text-right"
         >
           {isRequired && <span className="ml-1 text-red-500">*</span>}
           {label}

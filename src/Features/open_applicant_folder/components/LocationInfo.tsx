@@ -62,12 +62,12 @@ const LocationInfo = ({ control, errors }: LocationInfoProps) => {
   return (
     <>
       <Controller
-        name="personInfo.location.regionId"
+        name="applicantLocationInfo.regionId"
         control={control}
         render={({ field }) => (
           <SelectMenu
             isRequired={true}
-            error={errors.personInfo?.location?.regionId?.message ?? ""}
+            error={errors.applicantLocationInfo?.regionId?.message ?? ""}
             {...field}
             onChange={(selected) => {
               if (selected && "value" in selected) {
@@ -84,12 +84,12 @@ const LocationInfo = ({ control, errors }: LocationInfoProps) => {
         )}
       />
       <Controller
-        name="personInfo.location.cityId"
+        name="applicantLocationInfo.cityId"
         control={control}
         render={({ field }) => (
           <SelectMenu
             isRequired={true}
-            error={errors.personInfo?.location?.cityId?.message ?? ""}
+            error={errors.applicantLocationInfo?.cityId?.message ?? ""}
             placeholder="إختر المدينة"
             {...field}
             onChange={(selected) => {
@@ -110,12 +110,12 @@ const LocationInfo = ({ control, errors }: LocationInfoProps) => {
         )}
       />
       <Controller
-        name="personInfo.location.districtId"
+        name="applicantLocationInfo.districtId"
         control={control}
         render={({ field }) => (
           <SelectMenu
             isRequired={true}
-            error={errors.personInfo?.location?.districtId?.message ?? ""}
+            error={errors.applicantLocationInfo?.districtId?.message ?? ""}
             {...field}
             label="الحي السكني"
             isLoading={districtsLoading}

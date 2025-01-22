@@ -9,9 +9,9 @@ import {
 import { IOpenApplicantFolder } from "../../interface";
 import { useGetCountriesQuery } from "../../../shared/store/SharedApi";
 import CustomTextInput from "../../../../components/ui/CustomTextInput";
-import PersonBirthData from "../PersonBirthData";
 import LocationInfo from "../LocationInfo";
 import SelectMenu from "../../../../components/ui/SelectMenu";
+import PersonBirthData from "../PersonBirthData";
 
 interface IProps {
   register: UseFormRegister<IOpenApplicantFolder>;
@@ -34,77 +34,77 @@ const PersonalInfoFields = ({
       value: c.countryId.toString(),
     })) || [];
 
-  console.log("errors.gender?.message: " + errors.personInfo?.gender?.message);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       {/* National NO */}
       <CustomTextInput
-        {...register("personInfo.nationalIdOrIqama")}
+        {...register("applicatnPersonInfo.nationalIdOrIqama")}
         label={"الهوية الوطنية أو الإقامة"}
         isRequired={true}
         className="  lg:col-span-4 lg:w-80"
-        error={errors.personInfo?.nationalIdOrIqama?.message}
+        error={errors.applicatnPersonInfo?.nationalIdOrIqama?.message}
       />
       {/* Person Names */}
       <CustomTextInput
-        {...register("personInfo.firstName")}
+        {...register("applicatnPersonInfo.firstName")}
         label={"الإسم الأول"}
         isRequired={true}
-        error={errors.personInfo?.firstName?.message}
+        error={errors.applicatnPersonInfo?.firstName?.message}
       />
       <CustomTextInput
-        {...register("personInfo.secondName")}
+        {...register("applicatnPersonInfo.secondName")}
         label={"الإسم الثاني"}
         isRequired={true}
-        error={errors.personInfo?.secondName?.message}
+        error={errors.applicatnPersonInfo?.secondName?.message}
       />
       <CustomTextInput
-        {...register("personInfo.thirdName")}
-        error={errors.personInfo?.thirdName?.message}
+        {...register("applicatnPersonInfo.thirdName")}
+        error={errors.applicatnPersonInfo?.thirdName?.message}
         label={"الإسم الثالث"}
         isRequired={true}
       />
       <CustomTextInput
-        {...register("personInfo.fourthName")}
+        {...register("applicatnPersonInfo.fourthName")}
         label={"الإسم الرابع"}
         isRequired={true}
-        error={errors.personInfo?.fourthName?.message}
+        error={errors.applicatnPersonInfo?.fourthName?.message}
       />
       {/* Person Birth Data */}
       <PersonBirthData
+        control={control}
         clearErrors={clearErrors}
         setValue={setValue}
-        errors={errors}
-        control={control}
+        name="applicatnPersonInfo.dateOfBirthEn"
+        error={errors.applicatnPersonInfo?.dateOfBirthEn}
       />
       {/* Contact Info */}
       <CustomTextInput
-        {...register("personInfo.phoneNumber")}
+        {...register("applicatnPersonInfo.contactInfo.phoneNumber")}
         label={"رقم الهاتف"}
         isRequired={true}
-        error={errors.personInfo?.phoneNumber?.message}
+        error={errors.applicatnPersonInfo?.contactInfo?.phoneNumber?.message}
       />
       <CustomTextInput
-        {...register("personInfo.secondaryPhoneNumber")}
+        {...register("applicatnPersonInfo.contactInfo.phoneNumber2")}
         label={"رقم الهاتف (الثاني)"}
         isRequired={false}
-        error={errors.personInfo?.secondaryPhoneNumber?.message}
+        error={errors.applicatnPersonInfo?.contactInfo?.phoneNumber2?.message}
       />
       <CustomTextInput
-        {...register("personInfo.email")}
+        {...register("applicatnPersonInfo.contactInfo.email")}
         label={"الإيميل"}
         isRequired={false}
-        error={errors.personInfo?.email?.message}
+        error={errors.applicatnPersonInfo?.contactInfo?.email?.message}
       />
       {/* Gender Info */}
 
       <Controller
-        name="personInfo.gender"
+        name="applicatnPersonInfo.gender"
         control={control}
         render={({ field }) => (
           <SelectMenu
             isRequired={true}
-            error={errors.personInfo?.gender?.message ?? ""} // Display validation error
+            error={errors.applicatnPersonInfo?.gender?.message ?? ""} // Display validation error
             label="الجنس"
             options={[
               { value: 1, label: "ذكر" },
@@ -130,13 +130,13 @@ const PersonalInfoFields = ({
       />
       {/* Nationallity Info */}
       <Controller
-        name="personInfo.nationality"
+        name="applicatnPersonInfo.nationality"
         control={control}
         render={({ field }) => (
           <SelectMenu
             isRequired={true}
             {...field} // Binds React Hook Form's field state and event handlers
-            error={errors.personInfo?.nationality?.message ?? ""} // Display Zod error message
+            error={errors.applicatnPersonInfo?.nationality?.message ?? ""} // Display Zod error message
             label="الجنسية"
             onChange={(selected) => {
               if (selected && "value" in selected) {

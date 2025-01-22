@@ -41,6 +41,7 @@ const ApplicantComplaintInfo = ({ control, errors, register }: IProps) => {
   const selectedComplaint = applicantComplaints?.find(
     (a) => a.value.id === selectedComplaintId
   );
+
   const animatedComponents = makeAnimated();
 
   /* ────────────── HANDLERS ────────────── */
@@ -51,10 +52,6 @@ const ApplicantComplaintInfo = ({ control, errors, register }: IProps) => {
   const openModal = (complaintId: number) => {
     setModalOpen(true);
     setSelectedComplaintId(complaintId);
-  };
-
-  const handleMenuToggle = () => {
-    setMenuIsOpen((prev) => !prev);
   };
 
   const preventDropdownClosure = (e: React.MouseEvent) => {

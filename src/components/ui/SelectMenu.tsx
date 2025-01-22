@@ -1,25 +1,31 @@
 import Select, { Props as ReactSelectProps } from "react-select";
 import Box from "./Box";
 
-// Custom option component
-// Custom option component with hover effect
-
-// Extend React-Select props with additional features
-interface SelectMenuProps<T> extends ReactSelectProps<T, boolean> {
+interface Option<OT> {
   label: string;
-  isRequired?: boolean;
-  error?: string;
-  className?: string;
+  value: OT;
 }
 
-const SelectMenu = <T,>({
+// Extend React-Select props with additional features
+interface SelectMenuProps<OT> extends ReactSelectProps<Option<OT>, boolean> {
+  label: string;
+  isRequired?: boolean;
+  options: Option<OT>[]; // Options with generic value type
+  error?: string;
+  className?: string;
+  onChange: (value: OT | null) => void; // Callback for when a value is selected
+}
+
+const SelectMenu = <OT,>({
   label,
   isRequired,
   error,
   className,
+  options,
   isMulti = false, // Default to single-select
+  onChange,
   ...props
-}: SelectMenuProps<T>) => {
+}: SelectMenuProps<OT>) => {
   return (
     <Box className={className}>
       {/* Label */}
@@ -30,10 +36,27 @@ const SelectMenu = <T,>({
 
       {/* Select */}
       <Box className="relative mt-2">
-        <Select<T, boolean>
-          {...props} // Pass all props dynamically
+        <Select<Option<OT>, boolean>
+          options={options} // Pass options to Select
           isMulti={isMulti} // Dynamically toggle multi-select
+          placeholder="إختر خيارا"
+          onChange={(selected) => {
+            // Handle single or multi-select
+            if (isMulti) {
+              onChange(
+                (selected as Option<OT>[] | null)?.map((opt) => opt.value) ??
+                  null
+              );
+            } else {
+              onChange((selected as Option<OT> | null)?.value ?? null);
+            }
+          }}
           styles={{
+            placeholder: (provided) => ({
+              ...provided,
+              textAlign: "right", // Aligns the placeholder to the right
+              direction: "rtl", // Ensures proper text direction for Arabic or right-to-left content
+            }),
             control: (provided) => ({
               ...provided,
               height: isMulti ? "auto" : "33.6px", // Adjust height for multi-select
@@ -51,6 +74,7 @@ const SelectMenu = <T,>({
               alignItems: "center",
             }),
           }}
+          {...props} // Pass additional props
         />
         {error && <p className="text-sm text-red-600">{error}</p>}
       </Box>
