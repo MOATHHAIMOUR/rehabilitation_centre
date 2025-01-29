@@ -39,3 +39,12 @@
 [dir="rtl"] .flex-direction {
   @apply flex-row-reverse;
 }
+/* Hides scrollbar but keeps scrolling functional */
+.custom-scrollbar-hidden {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.custom-scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Edge */
+}

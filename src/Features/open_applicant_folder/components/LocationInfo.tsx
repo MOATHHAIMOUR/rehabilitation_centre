@@ -79,7 +79,7 @@ const LocationInfo = ({ control, errors }: LocationInfoProps) => {
             }}
             value={regions?.find((option) => option.value === field.value)}
             label="المنطقة التي يسكن فيها"
-            options={regions}
+            options={regions ?? []}
           />
         )}
       />
@@ -93,9 +93,9 @@ const LocationInfo = ({ control, errors }: LocationInfoProps) => {
             placeholder="إختر المدينة"
             {...field}
             onChange={(selected) => {
-              if (selected && "value" in selected) {
-                field.onChange(selected.value); // Handle single value
-                onChangeCity(selected?.value);
+              if (!Array.isArray(selected)) {
+                field.onChange(selected); // Handle single value
+                if (selected) onChangeCity(selected);
               } else {
                 field.onChange(null); // Handle no selection
               }
@@ -105,7 +105,7 @@ const LocationInfo = ({ control, errors }: LocationInfoProps) => {
             }
             label="المدينة التي يسكن فيها"
             isLoading={citiesLoading}
-            options={cities}
+            options={cities ?? []}
           />
         )}
       />
@@ -120,8 +120,8 @@ const LocationInfo = ({ control, errors }: LocationInfoProps) => {
             label="الحي السكني"
             isLoading={districtsLoading}
             onChange={(selected) => {
-              if (selected && "value" in selected) {
-                field.onChange(selected.value); // Handle single value
+              if (!Array.isArray(selected)) {
+                field.onChange(selected); // Handle single value
               } else {
                 field.onChange(null); // Handle no selection
               }
@@ -129,7 +129,7 @@ const LocationInfo = ({ control, errors }: LocationInfoProps) => {
             value={
               districts?.find((option) => option.value === field.value) || null
             } // Map the field value to React Select's format
-            options={districts}
+            options={districts ?? []}
           />
         )}
       />

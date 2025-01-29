@@ -5,13 +5,8 @@ import {
   FieldValues,
   Path,
 } from "react-hook-form";
-import { MultiValue, SingleValue } from "react-select";
-import SelectMenu from "./ui/SelectMenu";
-
-interface Option<OT> {
-  label: string;
-  value: OT;
-}
+import { MultiValue } from "react-select";
+import SelectMenu, { Option } from "./ui/SelectMenu";
 
 interface IProps<T extends FieldValues, OT> {
   name: Path<T>;
@@ -21,7 +16,7 @@ interface IProps<T extends FieldValues, OT> {
   error?: FieldError | undefined;
   isRequired?: boolean;
   isMulti?: boolean; // Optional prop for multi-select mode
-  externalOnChange?: (val: OT | undefined) => void;
+  externalOnChange?: (val: OT | OT[] | null) => void; // Support multi-select change events
 }
 
 const ControlledSelectMenu = <T extends FieldValues, OT>({
@@ -39,7 +34,7 @@ const ControlledSelectMenu = <T extends FieldValues, OT>({
       name={name}
       control={control}
       render={({ field }) => (
-        <SelectMenu
+        <SelectMenu<OT>
           {...field}
           isMulti={isMulti}
           value={
@@ -51,20 +46,18 @@ const ControlledSelectMenu = <T extends FieldValues, OT>({
                 )
               : options.find((option) => option.value === field.value)
           }
-          onChange={(
-            selected: MultiValue<Option<OT>> | SingleValue<Option<OT>>
-          ) => {
+          onChange={(selected) => {
             if (isMulti) {
-              field.onChange(
-                (selected as MultiValue<Option<OT>>).map(
-                  (option) => option.value
-                )
+              // Multi-select: Map selected options to an array of values
+              const values = (selected as MultiValue<Option<OT>>)?.map(
+                (option) => option.value
               );
+              externalOnChange?.(values ?? []);
+              field.onChange(values); // Update react-hook-form state
             } else {
-              field.onChange(
-                (selected as SingleValue<Option<OT>>)?.value ?? null
-              );
-              externalOnChange?.((selected as SingleValue<Option<OT>>)?.value);
+              // Single-select: Extract the value or pass undefined if no selection
+              externalOnChange?.(selected); // Trigger external onChange callback
+              field.onChange(selected); // Update react-hook-form state
             }
           }}
           isRequired={isRequired}

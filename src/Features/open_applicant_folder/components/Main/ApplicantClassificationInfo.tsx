@@ -37,8 +37,8 @@ const ApplicantClassificationInfo = ({ control, errors, register }: IProps) => {
               {...field}
               value={findOption(applicantClassficationTypes, field.value)} // Pass both options and current value
               onChange={(selected) => {
-                if (selected && "value" in selected) {
-                  field.onChange(selected.value); // Handle single value
+                if (!Array.isArray(selected)) {
+                  field.onChange(selected); // Handle single value
                 } else {
                   field.onChange(null); // Handle no selection
                 }

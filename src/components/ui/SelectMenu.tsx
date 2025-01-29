@@ -1,19 +1,26 @@
-import Select, { Props as ReactSelectProps } from "react-select";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import Select, {
+  Props as ReactSelectProps,
+  SingleValue,
+  MultiValue,
+  ActionMeta,
+} from "react-select";
 import Box from "./Box";
 
-interface Option<OT> {
+export interface Option<OT> {
   label: string;
   value: OT;
 }
 
 // Extend React-Select props with additional features
-interface SelectMenuProps<OT> extends ReactSelectProps<Option<OT>, boolean> {
+interface SelectMenuProps<OT>
+  extends Omit<ReactSelectProps<Option<OT>, boolean>, "onChange"> {
   label: string;
   isRequired?: boolean;
   options: Option<OT>[]; // Options with generic value type
   error?: string;
   className?: string;
-  onChange: (value: OT | null) => void; // Callback for when a value is selected
+  onChange: (value: OT | OT[] | null) => void; // Transform the value to a simplified format
 }
 
 const SelectMenu = <OT,>({
@@ -40,15 +47,18 @@ const SelectMenu = <OT,>({
           options={options} // Pass options to Select
           isMulti={isMulti} // Dynamically toggle multi-select
           placeholder="إختر خيارا"
-          onChange={(selected) => {
-            // Handle single or multi-select
+          onChange={(newValue, _actionMeta: ActionMeta<Option<OT>>) => {
+            // Transform the value before calling the parent onChange
             if (isMulti) {
-              onChange(
-                (selected as Option<OT>[] | null)?.map((opt) => opt.value) ??
-                  null
-              );
+              const values =
+                (newValue as MultiValue<Option<OT>>)?.map(
+                  (option) => option.value
+                ) ?? [];
+              onChange(values);
             } else {
-              onChange((selected as Option<OT> | null)?.value ?? null);
+              const value =
+                (newValue as SingleValue<Option<OT>>)?.value ?? null;
+              onChange(value);
             }
           }}
           styles={{

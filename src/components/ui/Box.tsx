@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 
-interface IProps {
+interface IProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   children?: ReactNode;
 }

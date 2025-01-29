@@ -5,9 +5,9 @@ import Box from "../components/ui/Box";
 const MainLayout = () => {
   return (
     <Box className="grid grid-cols-[auto,1fr]">
-      {/* <Box className="w-80">
+      <Box className="w-80">
         <Sidebar />
-      </Box> */}
+      </Box>
       <Box className="">
         <Outlet />
       </Box>

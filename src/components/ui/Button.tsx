@@ -17,6 +17,7 @@ const Button = ({
   disabled,
   ...props
 }: ButtonProps) => {
+  console.log("isLoading: " + isLoading);
   return (
     <button
       type={type}
@@ -26,6 +27,8 @@ const Button = ({
       {...props}
       disabled={isLoading || error || disabled}
     >
+      {children}
+
       {isLoading && (
         <svg
           className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
@@ -48,8 +51,6 @@ const Button = ({
           ></path>
         </svg>
       )}
-
-      {children}
     </button>
   );
 };
