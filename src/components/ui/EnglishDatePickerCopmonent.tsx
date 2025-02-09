@@ -8,9 +8,9 @@ interface IProps {
   className?: string;
   label: string;
   isRequired: boolean;
-  error: string;
+  error?: string;
   onChangeExternal?: (Date: DateObject | null) => void;
-  ExternalValue?: DateObject | null;
+  ExternalValue: DateObject;
 }
 
 const EnglishDatePickerComponent = ({

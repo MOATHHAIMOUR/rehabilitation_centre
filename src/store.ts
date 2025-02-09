@@ -1,14 +1,14 @@
 // src/app/store.js
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { sharedApi } from "./Features/shared/store/SharedApi";
-import { ministryApi } from "./Features/open_applicant_folder/store/ministryEducationApi";
-import { applicantClassificationApi } from "./Features/open_applicant_folder/store/applicantClassificationApi";
-import { applicantComplaintApi } from "./Features/open_applicant_folder/store/applicantComplaintApi";
-import { newStageApi } from "./Features/question_management/store/stageSliceApi";
-import { stageCategoryApiSlice } from "./Features/question_management/store/stageCategoryApiSlice";
-import { questionApiSlice } from "./Features/question_management/store/questionApiSlice";
-import { answerTypeApiSlice } from "./Features/question_management/store/answerTypeApiSlice";
+import { sharedApi } from "./features/shared/store/SharedApi";
+import { ministryApi } from "./features/open-applicant-folder/store/ministryEducationApi";
+import { applicantClassificationApi } from "./features/open-applicant-folder/store/applicantClassificationApi";
+import { applicantComplaintApi } from "./features/open-applicant-folder/store/applicantComplaintApi";
+import { newStageApi } from "./features/question-management/store/stageSliceApi";
+import { stageCategoryApiSlice } from "./features/question-management/store/stageCategoryApiSlice";
+import { questionApiSlice } from "./features/shared/store/questionApiSlice";
+import { answerTypeApiSlice } from "./features/question-management/store/answerTypeApiSlice";
 
 export const store = configureStore({
   reducer: {

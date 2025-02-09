@@ -1,13 +1,18 @@
 import { Route, Routes } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
-import QuestionManagementPage from "../pages/QuestionManagementPage";
+import DashboardLayout from "../layouts/DashboardLayout";
+import ApplicantFolderWrapper from "../features/open-applicant-folder/wrapper/ApplicantFolderWrapper";
+import ApplicantPersonalInfoPage from "../features/open-applicant-folder/personal-info/ApplicantPersonalInfoPage";
 
 function Router() {
   return (
     <Routes>
-      <Route element={<MainLayout />}>
-        {/* <Route index element={<OpenApplicantFolderPage />} /> */}
-        <Route index element={<QuestionManagementPage />} />
+      <Route element={<DashboardLayout />}>
+        <Route element={<ApplicantFolderWrapper />}>
+          <Route
+            path="/add-applicant/personal-info"
+            element={<ApplicantPersonalInfoPage />}
+          />
+        </Route>
       </Route>
     </Routes>
   );
