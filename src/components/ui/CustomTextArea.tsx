@@ -49,7 +49,7 @@ const CustomTextArea = forwardRef<HTMLTextAreaElement, IProps>(
             {...props} // Spread all react-hook-form props (e.g., onChange, onBlur)
             className="block w-full px-4 py-1 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
           ></textarea>
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p className="text-sm my-1 text-red-600">{error}</p>}
         </div>
       </div>
     );

@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import ControlledSelectMenu from "../../../components/ControlledSelectMenu";
 import Box from "../../../components/ui/Box";
-import { useGetApplicantClassficationTypesQuery } from "../store/applicantClassificationApi";
+import { useGetApplicantClassficationTypesQuery } from "../../../store/applicantClassificationApi";
 import CustomTextArea from "../../../components/ui/CustomTextArea";
 import { TApplicantClassificationInfoSchema } from "./types/applicantClassificationInfoSchema";
 

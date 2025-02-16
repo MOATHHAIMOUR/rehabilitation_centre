@@ -1,17 +1,21 @@
 // src/app/store.js
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { sharedApi } from "./features/shared/store/SharedApi";
-import { ministryApi } from "./features/open-applicant-folder/store/ministryEducationApi";
-import { applicantClassificationApi } from "./features/open-applicant-folder/store/applicantClassificationApi";
-import { applicantComplaintApi } from "./features/open-applicant-folder/store/applicantComplaintApi";
-import { newStageApi } from "./features/question-management/store/stageSliceApi";
-import { stageCategoryApiSlice } from "./features/question-management/store/stageCategoryApiSlice";
-import { questionApiSlice } from "./features/shared/store/questionApiSlice";
-import { answerTypeApiSlice } from "./features/question-management/store/answerTypeApiSlice";
+import { sharedApi } from "./store/SharedApi";
+import { ministryApi } from "./store/ministryEducationApi";
+import { applicantClassificationApi } from "./store/applicantClassificationApi";
+import { applicantComplaintApi } from "./store/applicantComplaintApi";
+import { newStageApi } from "./store/stageSliceApi";
+import { stageCategoryApiSlice } from "./store/stageCategoryApiSlice";
+import { questionApiSlice } from "./store/questionApiSlice";
+import { answerTypeApiSlice } from "./store/answerTypeApiSlice";
+import firstResearshReducer from "./features/first-research/store/FirstResearshSlice";
 
 export const store = configureStore({
   reducer: {
+    // Slice
+    firstResearsh: firstResearshReducer,
+    // Api Slice
     [sharedApi.reducerPath]: sharedApi.reducer,
     [ministryApi.reducerPath]: ministryApi.reducer,
     [applicantClassificationApi.reducerPath]:

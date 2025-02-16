@@ -1,5 +1,4 @@
 import { IGenreicTaps } from "../interface";
-import { TAddNewApplicantTaps } from "../types";
 
 export const applicantTapsData: Array<IGenreicTaps<TAddNewApplicantTaps>> = [
   {

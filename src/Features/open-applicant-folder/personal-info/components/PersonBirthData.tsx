@@ -1,7 +1,7 @@
-import { useFormContext, Controller } from "react-hook-form";
+import { Controller, Control, FieldPath, FieldValues } from "react-hook-form";
 import CustomTextInput from "../../../../components/ui/CustomTextInput";
-import EnglishDatePickerCopmonent from "../../../../components/ui/EnglishDatePickerCopmonent";
-import HijriDatePickerCopmonent from "../../../../components/ui/HijriDatePickerCopmonent";
+import EnglishDatePickerComponent from "../../../../components/ui/EnglishDatePickerCopmonent";
+import HijriDatePickerComponent from "../../../../components/ui/HijriDatePickerCopmonent";
 import arabic from "react-date-object/calendars/arabic";
 import arabic_ar from "react-date-object/locales/arabic_ar";
 import gregorian from "react-date-object/calendars/gregorian";
@@ -9,14 +9,16 @@ import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import DateObject from "react-date-object";
 import { useState } from "react";
 import { getAgeInArabic } from "../../../../utils";
-import { TapplicantPersonalInfoSchema } from "../types/applicantPersonalInfoSchema";
 
-const PersonBirthData = () => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext<TapplicantPersonalInfoSchema>(); // ✅ Ensure type inference from useFormContext
+interface BirthComponentProps<T extends FieldValues> {
+  control: Control<T>;
+  name: FieldPath<T>;
+}
 
+const BirthComponent = <T extends FieldValues>({
+  control,
+  name,
+}: BirthComponentProps<T>) => {
   const [date, setDate] = useState<{
     arDate: DateObject | null;
     enDate: DateObject | null;
@@ -25,7 +27,7 @@ const PersonBirthData = () => {
     enDate: null,
   });
 
-  const calcualtedAge = getAgeInArabic(date.enDate!);
+  const calculatedAge = getAgeInArabic(date.enDate!);
 
   function EnDateConverter(selectedDate: DateObject | null) {
     if (!selectedDate) return;
@@ -55,17 +57,17 @@ const PersonBirthData = () => {
     <>
       {/* Gregorian Date Picker */}
       <Controller
-        name={"birthDate"}
+        name={name}
         control={control}
-        render={({ field: { onChange, value } }) => {
+        render={({ field: { onChange, value }, fieldState: { error } }) => {
           const dateValue =
             typeof value === "string"
               ? new DateObject(value)
               : date.enDate || value;
           return (
-            <EnglishDatePickerCopmonent
+            <EnglishDatePickerComponent
               isRequired
-              error={errors.birthDate?.message}
+              error={error?.message}
               label="تاريخ الولادة الميلادي"
               onChangeExternal={(selectedDate) => {
                 onChange(selectedDate);
@@ -78,7 +80,7 @@ const PersonBirthData = () => {
       />
 
       {/* Hijri Date Picker */}
-      <HijriDatePickerCopmonent
+      <HijriDatePickerComponent
         isRequired
         label="تاريخ الولادة الهجري"
         onChangeExternal={ArDateConverter}
@@ -87,12 +89,12 @@ const PersonBirthData = () => {
 
       {/* Calculated Age */}
       <CustomTextInput
-        name={`${name}.age`}
-        externalVal={calcualtedAge}
+        name={"ageField"}
+        externalVal={calculatedAge}
         label="حساب العمر بالميلادي تلقائيا"
       />
     </>
   );
 };
 
-export default PersonBirthData;
+export default BirthComponent;

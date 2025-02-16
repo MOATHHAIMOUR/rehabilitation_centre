@@ -3,7 +3,7 @@ import CustomTextInput from "../../../components/ui/CustomTextInput";
 import { INewStageCategory } from "../interfaces";
 import { toast } from "react-toastify";
 import Button from "../../../components/ui/Button";
-import { useAddNewStageCategoryMutation } from "../store/stageCategoryApiSlice";
+import { useAddNewStageCategoryMutation } from "../../../store/stageCategoryApiSlice";
 
 interface IPops {
   onCancel: () => void;

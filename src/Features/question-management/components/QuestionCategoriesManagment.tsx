@@ -2,8 +2,8 @@ import { useRef, useState } from "react";
 import {
   useLazyGetAllStagesCategoryByStageIdQuery,
   useLazyGetSubStagesCategoryByStageCategoryIdQuery,
-} from "../store/stageCategoryApiSlice";
-import { useGetAllStagesTypesQuery } from "../store/stageSliceApi";
+} from "../../../store/stageCategoryApiSlice";
+import { useGetAllStagesTypesQuery } from "../../../store/stageSliceApi";
 import { SearchKeyVal } from "../interfaces";
 import Box from "../../../components/ui/Box";
 import SelectMenu from "../../../components/ui/SelectMenu";

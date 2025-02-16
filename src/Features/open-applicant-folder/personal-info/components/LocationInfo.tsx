@@ -4,7 +4,7 @@ import {
   useGetRegionsQuery,
   useLazyGetCitiesByRegionIdQuery,
   useLazyGetDistrictsByRegionAndCityIdQuery,
-} from "../../../shared/store/SharedApi";
+} from "../../../../store/SharedApi";
 import ControlledSelectMenu from "../../../../components/ControlledSelectMenu";
 import CustomTextInput from "../../../../components/ui/CustomTextInput";
 import { TapplicantPersonalInfoSchema } from "../types/applicantPersonalInfoSchema";

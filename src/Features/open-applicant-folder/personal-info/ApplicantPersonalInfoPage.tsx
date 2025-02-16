@@ -1,4 +1,4 @@
-import { useGetCountriesQuery } from "../../shared/store/SharedApi";
+import { useGetCountriesQuery } from "../../../store/SharedApi";
 import CustomTextInput from "../../../components/ui/CustomTextInput";
 import ControlledSelectMenu from "../../../components/ControlledSelectMenu";
 import PersonBirthData from "./components/PersonBirthData";
@@ -21,16 +21,15 @@ const ApplicantPersonalInfoPage = () => {
     console.log("errors");
     navigate("/add-applicant/classification-info");
   }
-  /* ────────────── Submit Handler ────────────── */
 
-  const onError = (errors: any) => {
-    console.error("Form Validation Errors:", errors);
+  // const onError = (errors: any) => {
+  //   console.error("Form Validation Errors:", errors);
 
-    // Optional: Log each error field separately
-    Object.keys(errors).forEach((field) => {
-      console.error(`❌ Error in "${field}":`, errors[field].message);
-    });
-  };
+  //   // Optional: Log each error field separately
+  //   Object.keys(errors).forEach((field) => {
+  //     console.error(`❌ Error in "${field}":`, errors[field].message);
+  //   });
+  // };
 
   return (
     <>
@@ -38,7 +37,7 @@ const ApplicantPersonalInfoPage = () => {
         onSubmit={handleSubmit}
         defaultValues={defaultValues}
         schema={applicantPersonalInfoSchema}
-        onError={onError}
+        // onError={onError}
       >
         {/* ✅ Moved Form Fields Inside `FormContent` */}
         <FormContent />
@@ -103,7 +102,7 @@ const FormContent = () => {
       />
 
       {/* Person Birth Data */}
-      <PersonBirthData />
+      <PersonBirthData control={control} name="birthDate" />
 
       {/* Contact Info */}
       <CustomTextInput

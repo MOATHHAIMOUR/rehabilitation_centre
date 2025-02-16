@@ -5,7 +5,7 @@ import {
   FieldValues,
   Path,
 } from "react-hook-form";
-import { MultiValue } from "react-select";
+import { components, GroupBase, MultiValue, OptionProps } from "react-select";
 import SelectMenu, { Option } from "./ui/SelectMenu";
 
 interface IProps<T extends FieldValues, OT> {
@@ -17,6 +17,9 @@ interface IProps<T extends FieldValues, OT> {
   isRequired?: boolean;
   isMulti?: boolean; // Optional prop for multi-select mode
   externalOnChange?: (val: OT | OT[] | null) => void; // Support multi-select change events
+  components?: Partial<{
+    Option: (props: OptionProps<OT, boolean, GroupBase<OT>>) => JSX.Element;
+  }>;
 }
 
 const ControlledSelectMenu = <T extends FieldValues, OT>({
@@ -37,6 +40,7 @@ const ControlledSelectMenu = <T extends FieldValues, OT>({
         <SelectMenu<OT>
           {...field}
           isMulti={isMulti}
+          components={components}
           value={
             isMulti
               ? options.filter((option) =>

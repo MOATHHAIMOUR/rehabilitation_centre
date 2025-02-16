@@ -4,14 +4,14 @@ import Box from "../components/ui/Box";
 
 const DashboardLayout = () => {
   return (
-    <div className="grid grid-cols-[auto,1fr]">
-      <div className="pr-80">
+    <Box className="grid grid-cols-[auto,1fr]">
+      <Box className="pr-80">
         <Sidebar />
-      </div>
+      </Box>
       <Box className="">
         <Outlet />
       </Box>
-    </div>
+    </Box>
   );
 };
 

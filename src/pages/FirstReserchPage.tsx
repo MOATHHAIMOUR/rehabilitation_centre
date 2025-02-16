@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import Box from "../components/ui/Box";
-import FirstResearch from "../Features/first_research/components/FirstResearch";
 
 const FirstReserchPage = () => {
   const { t } = useTranslation();
@@ -15,7 +14,7 @@ const FirstReserchPage = () => {
         <h1 className="text-4xl font-semibold">البحث الأولي</h1>
       </Box>
 
-      <FirstResearch />
+      <FirstReserch />
     </Box>
   );
 };

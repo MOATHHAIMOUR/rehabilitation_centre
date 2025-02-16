@@ -11,20 +11,18 @@ import {
   UseFormProps,
 } from "react-hook-form";
 import { ZodSchema } from "zod";
-import Box from "../../../../components/ui/Box";
 import Button from "../../../../components/ui/Button";
+import { motion } from "framer-motion";
 
 type FormProps<T extends FieldValues> = {
   children: ReactNode;
   schema: ZodSchema<T>;
   title?: string;
   onSubmit: SubmitHandler<T>;
+  onPrev: () => void;
+  IsFirstForm: boolean;
+  IsLastForm: boolean;
   onError?: SubmitErrorHandler<T>;
-  slotProps?: {
-    submitButtonProps?: ButtonProps;
-    resetButtonProps?: Partial<IconButtonProps>;
-    formContainerProps?: Partial<typeof Grid>;
-  };
   showResetButton?: boolean;
   mode?: UseFormProps<T>["mode"];
   submitButtonText?: string;
@@ -36,8 +34,10 @@ type FormProps<T extends FieldValues> = {
 const Form = <T extends FieldValues>({
   children,
   schema,
-  title,
   onSubmit,
+  onPrev,
+  IsFirstForm,
+  IsLastForm,
   onError,
   mode = "all",
   values,
@@ -48,11 +48,12 @@ const Form = <T extends FieldValues>({
     values,
     defaultValues,
     resolver: zodResolver(schema),
+    shouldUnregister: true,
   });
 
-  const handleConfirm = () => {
-    form.reset(defaultValues);
-  };
+  // const handleConfirm = () => {
+  //   form.reset(defaultValues);
+  // };
 
   //   const handleResetFormClick = async () => {
   //     await confirm({
@@ -65,8 +66,10 @@ const Form = <T extends FieldValues>({
       <form onSubmit={form.handleSubmit(onSubmit, onError)}>
         {children}
 
-        <Box className="flex justify-between my-10 gap-4">
+        <motion.div layout className="flex justify-between my-10 gap-4">
           <Button
+            disabled={IsFirstForm}
+            onClick={onPrev}
             type="button"
             className="mt-4 bg-bg-primary hover:bg-slate-950 text-white py-2 px-10 rounded"
           >
@@ -77,9 +80,9 @@ const Form = <T extends FieldValues>({
             type="submit"
             className="mt-4 bg-bg-primary hover:bg-slate-950 text-white py-2 px-10 rounded"
           >
-            حفظ و متابعة
+            {IsLastForm ? "إرسال" : "حفظ و متابعة"}
           </Button>
-        </Box>
+        </motion.div>
       </form>
     </FormProvider>
   );

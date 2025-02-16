@@ -1,23 +1,23 @@
 import { OptionProps } from "react-select";
 
-// Define the option type as generic
+// ✅ Define the correct option type
 type CustomOptionType<T> = {
-  value: T;
+  value: T; // ✅ `value` is an object (e.g., `{ id, desc }`)
   label: string;
 };
 
-// Extend props to include the generic type and custom button handler
+// ✅ Extend OptionProps with correct type
 interface CustomOptionProps<T>
   extends OptionProps<CustomOptionType<T>, boolean> {
-  onButtonClick: (option: CustomOptionType<T>) => void; // Handler for button click
+  onButtonClick: (option: T) => void; // ✅ Pass `value` (not the full `data`)
 }
 
-const CustomSelectOption = <T,>({
+const CustomSelectOption = <T extends { id: number; desc: string }>({
   data,
   isFocused,
   innerRef,
   innerProps,
-  onButtonClick, // Access the handler
+  onButtonClick,
 }: CustomOptionProps<T>) => {
   return (
     <div
@@ -29,18 +29,15 @@ const CustomSelectOption = <T,>({
         justifyContent: "space-between",
         padding: "10px",
         cursor: "pointer",
-        backgroundColor: isFocused ? "#06060618" : "white", // Hover effect
+        backgroundColor: isFocused ? "#06060618" : "white",
       }}
     >
-      {/* Default label */}
-      <span>{data.label}</span>
-
-      {/* Button */}
+      <span>{data.label}</span> {/* ✅ Display label */}
       <button
         type="button"
         onClick={(e) => {
-          e.stopPropagation(); // Prevent triggering the dropdown selection
-          onButtonClick(data); // Call the parent handler
+          e.stopPropagation(); // Prevent selection when clicking button
+          onButtonClick(data.value); // ✅ Send only `value` (not full `data`)
         }}
         style={{
           marginLeft: "10px",
