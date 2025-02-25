@@ -14,6 +14,7 @@ const Modal = ({ isOpen, children, title, onClose, okCancel }: IProps) => {
 
   function handleClose(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     // Close modal if the event occurs outside the modal content
+    e.stopPropagation();
     if (ref.current && !ref.current.contains(e.target as Node)) {
       onClose?.();
     }

@@ -4,10 +4,7 @@ import { EnumAnswerType } from "../../question-management/enums";
 const notesSchema = z.discriminatedUnion("isHasNotes", [
   z.object({
     isHasNotes: z.literal(true),
-    notes: z
-      .string()
-      .min(1, "الرجاء تعبئة الملاحظات أو القيام بإلغائها")
-      .default(""),
+    notes: z.string().min(1, "الرجاء تعبئة الملاحظات أو القيام بإلغائها"),
   }),
   z.object({
     isHasNotes: z.literal(false),
@@ -19,14 +16,24 @@ export const researchInfoSchema = z.object({
   questionsAnswers: z.array(
     z
       .object({
+        // questionId: z.number(), // Remove .preprocess() and .default()
+        // answerType: z.nativeEnum(EnumAnswerType), // Remove .preprocess() and .default()
+        // // isRequired: z.enum(["yes", "no"]), // Remove .default()
+        // // isHasNotes: z.boolean(), // Remove .default()
+
+        // questionId: z.string().transform((val) => Number(val)), // Convert string to number after validation
+        // answerType: z.string().transform((val) => Number(val)), // Convert string to number after validation
+
         questionId: z.preprocess(
-          (val) => Number(val), // ✅ Converts "5" → 5
-          z.number()
-        ),
+          (val) => Number(val), // Convert string to number
+          z.number() // Validate as number
+        ) as z.ZodEffects<z.ZodNumber>,
+
         answerType: z.preprocess(
-          (val) => parseFloat(val as string),
+          (val) => Number(val),
           z.nativeEnum(EnumAnswerType)
-        ),
+        ) as z.ZodEffects<z.ZodNativeEnum<typeof EnumAnswerType>>,
+
         isRequired: z.enum(["yes", "no"]),
         isHasNotes: z.boolean().default(false),
 

@@ -6,12 +6,13 @@ export interface IFirstResearshFormsData {
   IsLastPath: boolean;
   name: string;
   path: string;
-  stageCategoryId: number;
+  stageCategoryIdsPath: number[];
 }
 
 export interface ICurrentFormInfo {
   formKey: number;
-  stageCategoryId: number;
+  stageCategoryIdsPath: number[];
+  currentStageCategoryId: number;
   currentPath: string;
   prevPath: string | null;
   NextPath: string | null;
@@ -34,7 +35,8 @@ const initialState: IFirstResearshState = {
     IsLastForm: false,
     NextPath: "",
     prevPath: "",
-    stageCategoryId: 0,
+    stageCategoryIdsPath: [],
+    currentStageCategoryId: -1,
   },
   FirstResearshFormsData: [],
 };
@@ -50,13 +52,17 @@ const firstResearsh = createSlice({
       state.IsDataFetched = true;
       state.FirstResearshFormsData = action.payload;
       state.CurrentFormInfo = {
-        formKey: -1,
+        formKey: action.payload[0].key,
         currentPath: action.payload[0].path,
         IsFirstForm: true,
         IsLastForm: false,
         NextPath: action.payload[1].path,
         prevPath: null,
-        stageCategoryId: action.payload[0].stageCategoryId,
+        stageCategoryIdsPath: action.payload[0].stageCategoryIdsPath,
+        currentStageCategoryId:
+          action.payload[0].stageCategoryIdsPath[
+            action.payload[0].stageCategoryIdsPath.length - 1
+          ],
       };
     },
     setForm: (state, action: PayloadAction<ICurrentFormInfo>) => {

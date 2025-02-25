@@ -1,20 +1,26 @@
 // src/app/store.js
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { sharedApi } from "./store/SharedApi";
-import { ministryApi } from "./store/ministryEducationApi";
-import { applicantClassificationApi } from "./store/applicantClassificationApi";
-import { applicantComplaintApi } from "./store/applicantComplaintApi";
-import { newStageApi } from "./store/stageSliceApi";
-import { stageCategoryApiSlice } from "./store/stageCategoryApiSlice";
-import { questionApiSlice } from "./store/questionApiSlice";
-import { answerTypeApiSlice } from "./store/answerTypeApiSlice";
+import { sharedApi } from "./store/services/SharedApi";
+import { ministryApi } from "./store/services/ministryEducationApi";
+import { applicantClassificationApi } from "./store/services/applicantClassificationApi";
+import { applicantComplaintApi } from "./store/services/applicantComplaintApi";
+import { newStageApi } from "./store/services/stageSliceApi";
+import { stageCategoryApiSlice } from "./store/services/stageCategoryApiSlice";
+import { questionApiSlice } from "./store/services/questionApiSlice";
+import { answerTypeApiSlice } from "./store/services/answerTypeApiSlice";
 import firstResearshReducer from "./features/first-research/store/FirstResearshSlice";
+import authSlice from "./features/Auth/store/AuthSlice";
+import SaveApplicantFolderSlice from "./features/open-applicant-folder/wrapper/store/SaveApplicantSlice";
+
+import { otpCodeAPISlice } from "./store/services/otpCodeAPISlice";
 
 export const store = configureStore({
   reducer: {
     // Slice
     firstResearsh: firstResearshReducer,
+    authSlice: authSlice,
+    SaveApplicantFolderSlice: SaveApplicantFolderSlice,
     // Api Slice
     [sharedApi.reducerPath]: sharedApi.reducer,
     [ministryApi.reducerPath]: ministryApi.reducer,
@@ -25,6 +31,7 @@ export const store = configureStore({
     [stageCategoryApiSlice.reducerPath]: stageCategoryApiSlice.reducer,
     [questionApiSlice.reducerPath]: questionApiSlice.reducer,
     [answerTypeApiSlice.reducerPath]: answerTypeApiSlice.reducer,
+    [otpCodeAPISlice.reducerPath]: otpCodeAPISlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -35,7 +42,8 @@ export const store = configureStore({
       newStageApi.middleware,
       stageCategoryApiSlice.middleware,
       questionApiSlice.middleware,
-      answerTypeApiSlice.middleware
+      answerTypeApiSlice.middleware,
+      otpCodeAPISlice.middleware
     ),
 });
 

@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { Form } from "../form/components/Form";
-import MotherInfoComponent from "./components/FatherInfo";
-import FatherInfoComponent from "./components/MotherInfo";
+import { Form } from "../../../components/components/Form";
+import MotherInfoComponent from "./components/MotherInfoComponent";
 import Box from "../../../components/ui/Box";
 import { useFormContext } from "react-hook-form";
 import {
@@ -9,6 +8,7 @@ import {
   applicantParentsInfoSchemaDefaultValues,
   TApplicantParentsInfoSchema,
 } from "./types/ApplicantParentsSchema";
+import FatherInfoComponent from "./components/FatherInfoComponent";
 
 const ApplicantParentsInfoFormPage = () => {
   const navigate = useNavigate();
@@ -28,6 +28,7 @@ const ApplicantParentsInfoFormPage = () => {
       onSubmit={handleSubmit}
       defaultValues={applicantParentsInfoSchemaDefaultValues}
       schema={applicantParentsInfoSchema}
+      isMultiForm={true}
       // onError={onError}
     >
       <FormContent />
@@ -42,17 +43,21 @@ const FormContent = () => {
   const {
     control,
     register,
+    unregister,
     formState: { errors },
   } = useFormContext<TApplicantParentsInfoSchema>();
 
   return (
-    <Box className="mt-10">
+    <Box className="mt-10 flex flex-col gap-10">
       <FatherInfoComponent
+        unregister={unregister}
         control={control}
         register={register}
         errors={errors}
       />
+      <hr className="border-t-4 border-gray-900" /> {/* Solid line */}
       <MotherInfoComponent
+        unregister={unregister}
         control={control}
         register={register}
         errors={errors}

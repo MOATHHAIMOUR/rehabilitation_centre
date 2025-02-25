@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IGenericApiResponse } from "../interfaces";
+import { IGenericApiResponse } from "../../interfaces";
 
 interface IApplicantclassfictionType {
   applicantClassificationTypeId: number;

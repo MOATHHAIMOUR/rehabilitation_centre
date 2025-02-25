@@ -16,6 +16,7 @@ import NewCompanyForm from "./NewCompanyForm";
 
 interface WorkInfoProps<T extends FieldValues> {
   control: Control<T>;
+
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;
   workPhoneName: Path<T>;
@@ -46,17 +47,9 @@ const WorkInfo = <T extends FieldValues>({
   }
 
   return (
-    <Box className="grid grid-cols-1 gap-4">
-      {/* ✅ Work Phone */}
-      <CustomTextInput
-        isRequired={true}
-        {...register(workPhoneName)}
-        label="هاتف العمل"
-        error={errors?.[workPhoneName]?.message?.toString()}
-      />
-
+    <Box className=" grid grid-cols-1 gap-4">
       {/* ✅ Company Selection */}
-      <Box>
+      <Box className="">
         <ControlledSelectMenu
           control={control}
           name={companyIdName}
@@ -95,7 +88,13 @@ const WorkInfo = <T extends FieldValues>({
         isRequired={true}
         error={errors?.[industryFieldName] as FieldError}
       />
-
+      {/* ✅ Work Phone */}
+      <CustomTextInput
+        isRequired={true}
+        {...register(workPhoneName)}
+        label="هاتف العمل"
+        error={errors?.[workPhoneName]?.message?.toString()}
+      />
       {/* Modal for New Company */}
       <AnimatePresence>
         {isNewCompanyModalOpen && (

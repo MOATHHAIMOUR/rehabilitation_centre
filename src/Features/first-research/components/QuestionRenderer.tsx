@@ -127,12 +127,12 @@ const QuestionRenderer = ({
         <input
           type="hidden"
           {...register(`${namePrefix}.questionId` as Path<TResearchInfoSchema>)}
-          value={Number(q.questionId)}
+          value={q.questionId}
         />
         <input
           type="hidden"
           {...register(`${namePrefix}.answerType` as Path<TResearchInfoSchema>)}
-          value={Number(q.answerTypeId)}
+          value={q.answerTypeId}
         />
         <input
           type="hidden"

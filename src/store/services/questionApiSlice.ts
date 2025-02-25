@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IGenericApiResponse } from "../interfaces";
+import { IGenericApiResponse } from "../../interfaces";
 import {
   EnumAnswerType,
   EnumWhenToShowQuestion,
-} from "../features/question-management/enums";
+} from "../../features/question-management/enums";
 
 export interface QuestionChoice {
   questionChoiceId: number;

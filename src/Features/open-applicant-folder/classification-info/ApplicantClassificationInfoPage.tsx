@@ -1,40 +1,35 @@
-import { useFormContext } from "react-hook-form";
-import ControlledSelectMenu from "../../../components/ControlledSelectMenu";
-import Box from "../../../components/ui/Box";
-import { useGetApplicantClassficationTypesQuery } from "../../../store/applicantClassificationApi";
-import CustomTextArea from "../../../components/ui/CustomTextArea";
-import { TApplicantClassificationInfoSchema } from "./types/applicantClassificationInfoSchema";
+import {
+  applicantClassificationInfoSchema,
+  applicantClassificationInfoSchemaDefaultValues,
+  TApplicantClassificationInfoSchema,
+} from "./types/applicantClassificationInfoSchema";
+import ApplicantClassificationInfoFormContent from "./components/ApplicantClassificationInfoFormContent";
+import { Form } from "../../../components/components/Form";
+import { useNavigate } from "react-router-dom";
 
-const ApplicantClassificationInfo = () => {
-  /* ────────────── STORE  ────────────── */
-  const { data: ApplicantClassficationTypesResponse } =
-    useGetApplicantClassficationTypesQuery();
-  const applicantClassficationTypes =
-    ApplicantClassficationTypesResponse?.data.map((a) => {
-      return { label: a.nameAr, value: a.applicantClassificationTypeId };
-    });
+const ApplicantClassificationInfoPage = () => {
+  const navigate = useNavigate();
 
-  /* ────────────── REACT-HOOK-FORM  ────────────── */
-  const {
-    register,
-    control,
-    formState: { errors },
-  } = useFormContext<TApplicantClassificationInfoSchema>(); // ✅ Now inside `FormProvider`
+  /* ────────────── Submit Handler ────────────── */
+  function handleSubmit(data: TApplicantClassificationInfoSchema) {
+    console.log("✅ Form Submitted:", data);
+    navigate("/next-step"); // Redirect to the next step
+  }
+
+  // const onError = (errors: any) => {
+  //   console.error("❌ Validation Errors:", errors);
+  // };
 
   return (
-    <Box className="flex  flex-col gap-8">
-      <ControlledSelectMenu
-        control={control}
-        name="applicantClassificationInfoId"
-        label="تصنيف المراجع"
-        options={applicantClassficationTypes ?? []}
-        isRequired={true}
-        error={errors.applicantClassificationInfoId}
-      />
-
-      <CustomTextArea {...register("notes")} label="ملاحظات" name="notes" />
-    </Box>
+    <Form
+      onSubmit={handleSubmit}
+      defaultValues={applicantClassificationInfoSchemaDefaultValues}
+      schema={applicantClassificationInfoSchema}
+      isMultiForm={true}
+    >
+      <ApplicantClassificationInfoFormContent />
+    </Form>
   );
 };
 
-export default ApplicantClassificationInfo;
+export default ApplicantClassificationInfoPage;

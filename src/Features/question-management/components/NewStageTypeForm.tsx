@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import CustomTextInput from "../../../components/ui/CustomTextInput";
 import { INewStageType } from "../interfaces";
 import CustomTextArea from "../../../components/ui/CustomTextArea";
-import { useAddNewStageMutation } from "../../../store/stageSliceApi";
+import { useAddNewStageMutation } from "../../../store/services/stageSliceApi";
 import { toast } from "react-toastify";
 import Button from "../../../components/ui/Button";
 

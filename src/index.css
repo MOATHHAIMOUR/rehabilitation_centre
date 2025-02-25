@@ -4,12 +4,16 @@
 
 @layer base {
   :root {
+    --sidebar-bg: 10, 12, 16;
+
     --primary-bg: 24, 24, 24;
     --primary-text: 255, 255, 255;
     --primary-text-hover: 255, 255, 255;
   }
 
   .dark {
+    --sidebar-bg: 10, 12, 16;
+
     /* Default_BG */
     --primary-bg: 24, 24, 24;
     --primary-text: 255, 255, 255;

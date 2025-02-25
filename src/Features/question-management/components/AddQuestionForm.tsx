@@ -1,9 +1,11 @@
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
-import { IAddNewQuestion } from "../interfaces";
 import { toast } from "react-toastify";
 import Button from "../../../components/ui/Button";
-import { useAddNewQuestionMutation } from "../../../store/questionApiSlice";
-import { useGetAllAnswerTypesQuery } from "../../../store/answerTypeApiSlice";
+import {
+  IAddNewQuestion,
+  useAddNewQuestionMutation,
+} from "../../../store/services/questionApiSlice";
+import { useGetAllAnswerTypesQuery } from "../../../store/services/answerTypeApiSlice";
 import AddDebendQuestion from "./AddDebendQuestion";
 import AddMainQuestion from "./AddMainQuestion";
 import { zodResolver } from "@hookform/resolvers/zod";

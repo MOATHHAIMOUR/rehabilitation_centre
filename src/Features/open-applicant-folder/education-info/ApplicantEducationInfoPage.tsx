@@ -1,18 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { Form } from "../form/components/Form";
-import { useFormContext } from "react-hook-form";
-import {
-  useGetMinistryEducationsQuery,
-  useLazyGetMinistryEducationLevelsByIdQuery,
-} from "../../../store/ministryEducationApi";
-import Box from "../../../components/ui/Box";
-import ControlledSelectMenu from "../../../components/ControlledSelectMenu";
-import CustomTextArea from "../../../components/ui/CustomTextArea";
+import { Form } from "../../../components/components/Form";
 import {
   applicantEducationInfoDefaultValues,
   applicantEducationInfoSchema,
   TApplicantEducationInfoSchema,
 } from "./types/applicantClassificationInfoSchema";
+import ApplicantEducationInfoFormContent from "./components/ApplicantEducationInfoFormContent";
 
 const EducationInfoFormPage = () => {
   /* ────────────── STATE ────────────── */
@@ -33,78 +26,12 @@ const EducationInfoFormPage = () => {
       onSubmit={handleSubmit}
       defaultValues={applicantEducationInfoDefaultValues}
       schema={applicantEducationInfoSchema}
+      isMultiForm={true}
       // onError={onError}
     >
-      <FormContent />
+      <ApplicantEducationInfoFormContent />
     </Form>
   );
 };
 
 export default EducationInfoFormPage;
-
-const FormContent = () => {
-  /* ────────────── STORE ────────────── */
-  const { data: MinistryEducationsResponse } = useGetMinistryEducationsQuery();
-  const ministryEducations =
-    MinistryEducationsResponse?.data.map((m) => ({
-      label: m.nameAr,
-      value: m.ministryEducationId,
-    })) || [];
-
-  const [
-    ministryEducationLevelTrigger,
-    { data: MinistryEducationLevelsResponse },
-  ] = useLazyGetMinistryEducationLevelsByIdQuery();
-
-  const ministryEducationLevels =
-    MinistryEducationLevelsResponse?.data?.map((m) => ({
-      label: m.levelAr,
-      value: m.ministryEducationLevelId,
-    })) || [];
-
-  /* ────────────── REACT-HOOK-FORM  ────────────── */
-  const {
-    control,
-    register,
-    formState: { errors },
-  } = useFormContext<TApplicantEducationInfoSchema>();
-
-  /* ────────────── HANDLERS  ────────────── */
-  function handleMinistryChange(val: number | number[] | null) {
-    if (val && !Array.isArray(val)) {
-      ministryEducationLevelTrigger(val);
-    }
-  }
-
-  return (
-    <Box className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {/* نوع الوزارة */}
-      <ControlledSelectMenu
-        control={control}
-        name="minstryEducationTypeId"
-        label="نوع الوزارة"
-        options={ministryEducations}
-        isRequired={true}
-        externalOnChange={handleMinistryChange}
-        error={errors.minstryEducationTypeId}
-      />
-
-      {/* المستوى التعليمي */}
-      <ControlledSelectMenu
-        control={control}
-        name="minstryEducationTLevelId"
-        label="المستوى التعليمي"
-        options={ministryEducationLevels}
-        error={errors.minstryEducationTLevelId}
-      />
-
-      {/* ملاحظات */}
-      <CustomTextArea
-        {...register("notes")}
-        label="ملاحظات"
-        name="notes"
-        error={errors.notes?.message}
-      />
-    </Box>
-  );
-};

@@ -94,3 +94,13 @@ export const choicesData: { [key: number]: string } = {
   28: "الخيار التاسع والعشرون",
   29: "الخيار الثلاثون",
 };
+
+export function getCookie(name: string): string | null {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    const cookieValue = parts.pop()?.split(";").shift();
+    return cookieValue || null;
+  }
+  return null;
+}

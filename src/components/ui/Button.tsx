@@ -22,7 +22,7 @@ const Button = ({
     <button
       type={type}
       className={`${className} ${
-        error || isLoading || disabled ? "cursor-not-allowed" : ""
+        error || isLoading || disabled ? "cursor-not-allowed bg-gray-300" : ""
       }  flex items-center justify-center`}
       {...props}
       disabled={isLoading || error || disabled}

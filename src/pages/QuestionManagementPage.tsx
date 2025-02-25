@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import Box from "../components/ui/Box";
-import QuestionManagement from "../Features/question_management/components/QuestionManagement";
+import QuestionManagement from "../features/question-management/components/QuestionManagement";
 
 const QuestionManagementPage = () => {
   const { t } = useTranslation();

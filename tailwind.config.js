@@ -13,6 +13,7 @@ export default {
         "custom-shape": "polygon(10% 20%, 80% 10%, 70% 90%, 20% 80%)",
       },
       colors: {
+        "sidebar-bg": "rgb(var(--sidebar-bg))",
         "bg-primary": "rgb(var(--primary-bg))",
         "text-primary": "rgb(var(--primary-text))",
       },

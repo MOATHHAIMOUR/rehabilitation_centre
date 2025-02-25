@@ -14,7 +14,7 @@ const FirstReserchPage = () => {
         <h1 className="text-4xl font-semibold">البحث الأولي</h1>
       </Box>
 
-      <FirstReserch />
+      {/* <FirstReserch /> */}
     </Box>
   );
 };

@@ -9,7 +9,8 @@ export type TApplicantClassificationInfoSchema = z.infer<
   typeof applicantClassificationInfoSchema
 >;
 
-export const defaultValues: TApplicantClassificationInfoSchema = {
-  applicantClassificationInfoId: 0,
-  notes: "",
-};
+export const applicantClassificationInfoSchemaDefaultValues: TApplicantClassificationInfoSchema =
+  {
+    applicantClassificationInfoId: 0,
+    notes: "",
+  };

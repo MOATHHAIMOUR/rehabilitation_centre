@@ -1,66 +1,58 @@
-import { useLocation } from "react-router-dom";
-
-const steps = [
-  {
-    href: "/add-applicant/personal-info",
-    label: "المعلومات الشخصية",
-  },
-  {
-    href: "/applicant/classification",
-    label: "تصنيف المتقدم",
-  },
-  {
-    href: "/applicant/education",
-    label: "المعلومات التعليمية",
-  },
-  {
-    href: "/applicant/complaints",
-    label: "الشكاوى",
-  },
-  {
-    href: "/applicant/job-info",
-    label: "المعلومات الوظيفية",
-  },
-  {
-    href: "/applicant/parents-info",
-    label: "معلومات الوالدين",
-  },
-  {
-    href: "/applicant/relatives-info",
-    label: "معلومات الأقارب",
-  },
-  {
-    href: "/applicant/insurance-info",
-    label: "معلومات التأمين",
-  },
-];
+import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { OPEN_APPLICANT_FOLDER_STEPPS_DATA } from "../data";
 
 const ApplicantFolderStepper = () => {
-  /* ────────────── STATE  ────────────── */
+  /* ────────────── STATE&STORE ────────────── */
   const { pathname } = useLocation();
+  console.log("pathname: " + pathname);
+  const [isOpen, setIsOpen] = useState(true);
+
+  /* ────────────── TOGGLE FUNCTION ────────────── */
+  const toggleStepper = () => {
+    setIsOpen((prev) => !prev);
+  };
 
   /* ────────────── RENDER ────────────── */
-  const renderTaps = (
-    <ul className="mt-6 mb-6 flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
-      {steps.map((step, index) => {
-        return (
-          <li key={index} className={`me-2`}>
-            <a
-              aria-current="page"
-              className={`inline-block p-4 ${
-                pathname === step.href
-                  ? "bg-bg-primary text-white"
-                  : "bg-gray-100"
-              }`}
-            >
-              {step.label}
-            </a>
-          </li>
-        );
-      })}
-    </ul>
+  return (
+    <div className="w-52 mx-auto">
+      {/* Toggle Button */}
+      <button
+        onClick={toggleStepper}
+        className="w-full flex items-center justify-between p-3 bg-bg-primary text-white font-semibold rounded-md shadow-md hover:bg-bg-secondary transition"
+      >
+        <span>قائمة الخطوات</span>
+        {isOpen ? <FaChevronUp /> : <FaChevronDown />}
+      </button>
+
+      {/* Animated Step List */}
+      <motion.div
+        initial={{ height: 0, opacity: 0 }}
+        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="overflow-hidden"
+      >
+        <ul className="mt-2 mb-6 flex flex-col text-sm font-medium text-center text-gray-500 border border-gray-300 rounded-md shadow-lg bg-white">
+          {OPEN_APPLICANT_FOLDER_STEPPS_DATA.map((step, index) => (
+            <li key={index}>
+              <NavLink
+                to={step.href}
+                className={`block w-full p-3 ${
+                  pathname === step.href
+                    ? "bg-bg-primary text-white"
+                    : "hover:bg-gray-200"
+                } transition`}
+              >
+                {step.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </motion.div>
+    </div>
   );
-  return <div>{renderTaps}</div>;
 };
 
 export default ApplicantFolderStepper;
