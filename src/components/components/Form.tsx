@@ -13,13 +13,14 @@ import {
 import { ZodSchema } from "zod";
 import Button from "../ui/Button";
 import { motion } from "framer-motion";
+import InfoIcon from "../InfoIcon";
 
 type FormProps<T extends FieldValues> = {
   children: ReactNode;
   schema: ZodSchema<T>;
   title?: string;
   onSubmit: SubmitHandler<T>;
-  onPrev?: () => void;
+  onPrev?: (data: T) => void;
   IsFirstForm?: boolean;
   IsLastForm?: boolean;
   onError?: SubmitErrorHandler<T>;
@@ -52,6 +53,7 @@ const Form = <T extends FieldValues>({
   const form = useForm<T>({
     mode,
     values,
+
     defaultValues,
     resolver: zodResolver(schema),
     shouldUnregister: true,
@@ -67,24 +69,14 @@ const Form = <T extends FieldValues>({
   //     });
   //   };
 
+  const handlePrev = () => {
+    onPrev?.(form.getValues());
+  };
   return (
     <FormProvider {...form}>
       {/* Info message */}
       <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-md flex items-center gap-2 w-fit mb-4">
-        <svg
-          className="w-6 h-6 text-blue-500"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M13 16h-1v-4h1m0-4h-1m-1 10h4a2 2 0 002-2V8a2 2 0 00-2-2h-4a2 2 0 00-2 2v8a2 2 0 002 2z"
-          ></path>
-        </svg>
+        <InfoIcon />
         <p className="text-sm font-medium">
           الحقول المميزة بعلامة{" "}
           <span className="text-red-500 font-bold">*</span> مطلوبة، يرجى تعبئتها
@@ -102,7 +94,7 @@ const Form = <T extends FieldValues>({
             <>
               <Button
                 disabled={IsFirstForm}
-                onClick={onPrev}
+                onClick={handlePrev}
                 type="button"
                 className="mt-4 bg-bg-primary hover:bg-slate-950 text-white py-2 px-10 rounded"
               >

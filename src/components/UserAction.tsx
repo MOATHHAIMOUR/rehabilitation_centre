@@ -1,5 +1,6 @@
 import { ElementType, useEffect, useState } from "react";
 import { FaBell, FaFolderOpen, FaHome, FaSignOutAlt } from "react-icons/fa";
+import { GiArchiveResearch } from "react-icons/gi";
 import { useLocation } from "react-router-dom";
 
 interface IMenuItem {
@@ -33,10 +34,16 @@ const menuItems: Record<string, IMenuItem> = {
     logo: FaHome,
     title: "الصفحة الرئيسية",
   },
+
   ...applicantFolderRoutes.reduce((acc, key) => {
     acc[key] = sharedApplicantMenuItem;
     return acc;
   }, {} as Record<string, IMenuItem>),
+
+  "/research/management": {
+    logo: GiArchiveResearch,
+    title: "إدارة البحوث والأسئلة المرتبطة بها",
+  },
 };
 
 function UserActions() {
@@ -59,7 +66,7 @@ function UserActions() {
   return (
     <div className="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-md">
       <div className="flex items-center gap-4">
-        {LogoTitleState?.logo && <LogoTitleState.logo size={35} />}
+        {LogoTitleState?.logo && <LogoTitleState.logo size={40} />}
         <p className="font-semibold text-xl">{LogoTitleState?.title}</p>
       </div>
       <div className="flex items-center gap-4">

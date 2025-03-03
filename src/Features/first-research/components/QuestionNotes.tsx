@@ -39,7 +39,7 @@ const QuestionNotes = ({
       <CustomTextArea
         {...register(`${namePrefix}` as Path<TResearchInfoSchema>)}
         label="ملاحظات"
-        error={errors.questionsAnswers?.[index]?.notes?.message}
+        error={errors.questions?.[index]?.notes?.message}
       />
     </motion.div>
   );

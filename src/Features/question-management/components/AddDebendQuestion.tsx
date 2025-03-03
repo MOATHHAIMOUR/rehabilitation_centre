@@ -21,8 +21,9 @@ import {
   opcityHightanimationProps,
 } from "../animation";
 import { WhenToShowDebenAnswerData } from "../data";
-import { AddNewQuestionSchemaType } from "../validation";
+import { AddNewQuestionSchemaType } from "../types";
 import { EnumAnswerType } from "../enums";
+import { CheckboxField } from "../../../components/CheckboxField";
 
 interface IProps {
   control: Control<AddNewQuestionSchemaType>;
@@ -123,6 +124,11 @@ const AddDebendQuestion = ({
           error={fullErrors.debendQuestion?.whenToDebShowQuestion} // ✅ Correct reference
         />
       )}
+      <CheckboxField
+        control={control}
+        label="الإجابة إجبارية"
+        name="debendQuestion.isDebReuired"
+      />
     </motion.div>
   );
 

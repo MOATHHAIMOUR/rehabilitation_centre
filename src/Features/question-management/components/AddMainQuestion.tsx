@@ -15,7 +15,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import CustomTextInput from "../../../components/ui/CustomTextInput";
 import { choicesData } from "../../../utils";
 import { hightAnimationProps, opacityAnimationProps } from "../animation";
-import { AddNewQuestionSchemaType } from "../validation";
+import { AddNewQuestionSchemaType } from "../types";
+import { CheckboxField } from "../../../components/CheckboxField";
 
 interface IProps {
   control: Control<AddNewQuestionSchemaType>;
@@ -49,6 +50,9 @@ const AddMainQuestion = ({
 
   const answerTypeId = watch("answerTypeId");
 
+  const answer = watch("isMainReuired");
+
+  console.log(answer);
   function removeFieldHandler(index: number) {
     deleteChoice(index);
   }
@@ -115,6 +119,11 @@ const AddMainQuestion = ({
           </motion.div>
         </Box>
       )}
+      <CheckboxField
+        control={control}
+        label="الإجابة إجبارية"
+        name="isMainReuired"
+      />
     </Box>
   );
 };

@@ -10,6 +10,7 @@ const debendQuestionSchema = z.discriminatedUnion("hasDebenQuestion", [
       answerTypeId: z.nativeEnum(EnumAnswerType, {
         errorMap: () => ({ message: "اختر خيارا صحيحا" }),
       }),
+      isDebReuired: z.boolean().default(false),
       choices: z
         .array(
           z.object({
@@ -49,6 +50,7 @@ const AddNewQuestionSchema = z
     answerTypeId: z.nativeEnum(EnumAnswerType, {
       errorMap: () => ({ message: "اختر خيارا صحيحا" }),
     }),
+    isMainReuired: z.boolean().default(false),
   })
   .and(debendQuestionSchema); // ✅ Combine schemas
 

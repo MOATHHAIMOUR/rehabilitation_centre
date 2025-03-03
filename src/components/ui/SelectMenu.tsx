@@ -42,7 +42,7 @@ const SelectMenu = <OT,>({
       </label>
 
       {/* Select */}
-      <Box className="relative mt-2">
+      <Box className=" relative mt-2  ">
         <Select<Option<OT>, boolean>
           options={options} // Pass options to Select
           isMulti={isMulti} // Dynamically toggle multi-select
@@ -58,6 +58,7 @@ const SelectMenu = <OT,>({
             } else {
               const value =
                 (newValue as SingleValue<Option<OT>>)?.value ?? null;
+
               onChange(value);
             }
           }}

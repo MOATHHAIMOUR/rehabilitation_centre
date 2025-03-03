@@ -13,30 +13,36 @@ const notesSchema = z.discriminatedUnion("isHasNotes", [
 ]);
 
 export const researchInfoSchema = z.object({
-  questionsAnswers: z.array(
+  questions: z.array(
     z
       .object({
-        // questionId: z.number(), // Remove .preprocess() and .default()
-        // answerType: z.nativeEnum(EnumAnswerType), // Remove .preprocess() and .default()
-        // // isRequired: z.enum(["yes", "no"]), // Remove .default()
-        // // isHasNotes: z.boolean(), // Remove .default()
+        // questionId: z.preprocess(
+        //   (val) => Number(val), // Convert string to number
+        //   z.number() // Validate as number
+        // ) as z.ZodEffects<z.ZodNumber>,
 
-        // questionId: z.string().transform((val) => Number(val)), // Convert string to number after validation
-        // answerType: z.string().transform((val) => Number(val)), // Convert string to number after validation
+        questionId: z.number().optional().nullable(),
 
-        questionId: z.preprocess(
-          (val) => Number(val), // Convert string to number
-          z.number() // Validate as number
-        ) as z.ZodEffects<z.ZodNumber>,
+        questionText: z.string().optional().nullable(),
+        // answerType: z.preprocess(
+        //   (val) => Number(val),
+        //   z.nativeEnum(EnumAnswerType)
+        // ) as z.ZodEffects<z.ZodNativeEnum<typeof EnumAnswerType>>,
 
-        answerType: z.preprocess(
-          (val) => Number(val),
-          z.nativeEnum(EnumAnswerType)
-        ) as z.ZodEffects<z.ZodNativeEnum<typeof EnumAnswerType>>,
+        answerType: z.number(),
+
+        questionChoices: z
+          .array(
+            z.object({
+              value: z.number(),
+              label: z.string(),
+            })
+          )
+          .nullable()
+          .optional(),
 
         isRequired: z.enum(["yes", "no"]),
         isHasNotes: z.boolean().default(false),
-
         answer: z
           .union([
             z.string(), // ✅ Allow empty string, validation happens in `superRefine`
@@ -56,7 +62,6 @@ export const researchInfoSchema = z.object({
 
         // ✅ If required, check that the answer meets the necessary conditions
         switch (answerType) {
-          case EnumAnswerType.Binery:
           case EnumAnswerType.Good_bad:
           case EnumAnswerType.SelecetMenuWithOneAnswer:
             if (typeof answer !== "number" || answer <= 0) {
@@ -64,6 +69,19 @@ export const researchInfoSchema = z.object({
                 code: z.ZodIssueCode.custom,
                 message:
                   "السؤال ضمن الاسئلة المطلوبه الرجاء إجابة السؤال نصياَ",
+                path: ["answer"],
+              });
+            }
+            break;
+
+          case EnumAnswerType.Binery:
+            if (
+              typeof answer !== "string" ||
+              !["yes", "no", "none"].includes(answer)
+            ) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Please select a valid option (yes, no, or none).",
                 path: ["answer"],
               });
             }
@@ -96,5 +114,5 @@ export const researchInfoSchema = z.object({
 export type TResearchInfoSchema = z.infer<typeof researchInfoSchema>;
 
 export const researchInfoSchemaDefaultValues: TResearchInfoSchema = {
-  questionsAnswers: [],
+  questions: [],
 };

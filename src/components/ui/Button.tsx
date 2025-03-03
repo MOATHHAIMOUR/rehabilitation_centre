@@ -17,7 +17,6 @@ const Button = ({
   disabled,
   ...props
 }: ButtonProps) => {
-  console.log("isLoading: " + isLoading);
   return (
     <button
       type={type}

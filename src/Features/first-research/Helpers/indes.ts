@@ -1,43 +1,32 @@
-import { IStageCategory } from "../../../store/services/stageCategoryApiSlice";
-import { IFirstResearshFormsData } from "../store/FirstResearshSlice";
+import { IResearchCategory } from "../../../store/services/researchCategoryApiSlice";
 
-export function BuildMainDaynamicResearshValues(
-  data: IStageCategory[],
-  name: string,
-  stageCategoriesIdsPaths: number[],
-  dataResearchVals: IFirstResearshFormsData[],
-  dataResearchValsSize: number
-): IFirstResearshFormsData[] {
+export function BuildResearshCategoriesIds(
+  data: IResearchCategory[],
+  currentResearchCategoryId: number,
+  stageCategoriesIdsPaths: number[]
+): number[] {
   for (let i = 0; i < data.length; i++) {
-    const stagecategory = data[i];
+    const researchCategory = data[i];
+    stageCategoriesIdsPaths.push(researchCategory.researchCategoryId);
 
-    stageCategoriesIdsPaths.push(stagecategory.stageCategoryId);
+    if (researchCategory.researchCategoryId === currentResearchCategoryId)
+      return [...stageCategoriesIdsPaths];
 
-    if (stagecategory.childCategories.length === 0) {
-      dataResearchVals.push({
-        key:
-          dataResearchVals.length > 0
-            ? dataResearchVals[dataResearchVals.length - 1].key + 1
-            : 0,
-        IsFirstPath: i == 0,
-        IsLastPath: dataResearchVals.length + 1 === dataResearchValsSize,
-        name: stagecategory.nameEn,
-        path: `http://localhost:5174/first-researsh/${
-          name === "" ? stagecategory.nameEn : name
-        }`,
-        stageCategoryIdsPath: [...stageCategoriesIdsPaths],
-      });
+    if (researchCategory.childrenResearchCategories.length > 0) {
+      const result = BuildResearshCategoriesIds(
+        researchCategory.childrenResearchCategories,
+        currentResearchCategoryId,
+        stageCategoriesIdsPaths
+      );
+      if (result.length > 0) return result;
     }
-    BuildMainDaynamicResearshValues(
-      stagecategory.childCategories,
-      name + stagecategory.nameEn + "-",
-      stageCategoriesIdsPaths,
-      dataResearchVals,
-      dataResearchValsSize
-    );
-
     stageCategoriesIdsPaths.pop();
   }
 
-  return dataResearchVals;
+  return [];
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const cloneFormData = (data: any) => {
+  return JSON.parse(JSON.stringify(data));
+};

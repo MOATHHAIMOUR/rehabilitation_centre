@@ -11,6 +11,9 @@ import ApplicantRelativeInfoPage from "../features/open-applicant-folder/relativ
 import ApplicantInsuranceInfoFormPage from "../features/open-applicant-folder/insurance-info/InsuranceInfoFormPage";
 import SaveApplicantFolderPage from "../features/open-applicant-folder/wrapper/SaveApplicantFolderPage";
 import ApplicantClassificationInfoPage from "../features/open-applicant-folder/classification-info/ApplicantClassificationInfoPage";
+import ConductNewResearchPage from "../features/first-research/ConductNewResearchPage";
+import ResearshPage from "../features/first-research/ResearshPage";
+import ResearchQuestionManagmentPage from "../features/question-management/ResearchQuestionManagmentPage";
 
 function Router() {
   return (
@@ -21,7 +24,7 @@ function Router() {
       <Route element={<DashboardLayout />}>
         <Route index path="/" element={<Navigate to={"/home"} />} />
         <Route path="/home" element={<></>} />
-        {/* Parent Route */}
+        {/* Applicant Folder Parent Route */}
         <Route path="/applicant-folder" element={<SaveApplicantFolderPage />}>
           {/* Redirect index route to personal info */}
           <Route
@@ -65,6 +68,20 @@ function Router() {
             element={<ApplicantInsuranceInfoFormPage />}
           />
         </Route>
+        {/* Base Reaserch Route */}
+        <Route path="/research">
+          <Route index element={<Navigate to="/research/management" />} />
+
+          <Route path=":researchType" element={<ConductNewResearchPage />}>
+            <Route path=":researchCategory" element={<ResearshPage />} />
+          </Route>
+
+          <Route
+            path="management"
+            element={<ResearchQuestionManagmentPage />}
+          />
+        </Route>
+
         <Route path="*" element={<p>الصفحة غير موجوده</p>} />
       </Route>
     </Routes>

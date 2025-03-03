@@ -5,20 +5,21 @@ import { sharedApi } from "./store/services/SharedApi";
 import { ministryApi } from "./store/services/ministryEducationApi";
 import { applicantClassificationApi } from "./store/services/applicantClassificationApi";
 import { applicantComplaintApi } from "./store/services/applicantComplaintApi";
-import { newStageApi } from "./store/services/stageSliceApi";
-import { stageCategoryApiSlice } from "./store/services/stageCategoryApiSlice";
+import { researchCategoryApiSlice } from "./store/services/researchCategoryApiSlice";
 import { questionApiSlice } from "./store/services/questionApiSlice";
 import { answerTypeApiSlice } from "./store/services/answerTypeApiSlice";
-import firstResearshReducer from "./features/first-research/store/FirstResearshSlice";
+import researshSlice from "./features/first-research/store/researshSlice";
 import authSlice from "./features/Auth/store/AuthSlice";
 import SaveApplicantFolderSlice from "./features/open-applicant-folder/wrapper/store/SaveApplicantSlice";
 
 import { otpCodeAPISlice } from "./store/services/otpCodeAPISlice";
+import { researchTypeSliceApi } from "./store/services/researchTypeSliceApi";
+import { applicantFolderApiSlice } from "./store/services/applicantFolderApiSlice";
 
 export const store = configureStore({
   reducer: {
     // Slice
-    firstResearsh: firstResearshReducer,
+    researshSlice: researshSlice,
     authSlice: authSlice,
     SaveApplicantFolderSlice: SaveApplicantFolderSlice,
     // Api Slice
@@ -27,11 +28,12 @@ export const store = configureStore({
     [applicantClassificationApi.reducerPath]:
       applicantClassificationApi.reducer,
     [applicantComplaintApi.reducerPath]: applicantComplaintApi.reducer,
-    [newStageApi.reducerPath]: newStageApi.reducer,
-    [stageCategoryApiSlice.reducerPath]: stageCategoryApiSlice.reducer,
+    [researchTypeSliceApi.reducerPath]: researchTypeSliceApi.reducer,
+    [researchCategoryApiSlice.reducerPath]: researchCategoryApiSlice.reducer,
     [questionApiSlice.reducerPath]: questionApiSlice.reducer,
     [answerTypeApiSlice.reducerPath]: answerTypeApiSlice.reducer,
     [otpCodeAPISlice.reducerPath]: otpCodeAPISlice.reducer,
+    [applicantFolderApiSlice.reducerPath]: applicantFolderApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -39,11 +41,12 @@ export const store = configureStore({
       ministryApi.middleware,
       applicantClassificationApi.middleware,
       applicantComplaintApi.middleware,
-      newStageApi.middleware,
-      stageCategoryApiSlice.middleware,
+      researchTypeSliceApi.middleware,
+      researchCategoryApiSlice.middleware,
       questionApiSlice.middleware,
       answerTypeApiSlice.middleware,
-      otpCodeAPISlice.middleware
+      otpCodeAPISlice.middleware,
+      applicantFolderApiSlice.middleware
     ),
 });
 

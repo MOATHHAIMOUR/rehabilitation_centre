@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Box from "../../../components/ui/Box";
-import QuestionCategoriesManagment from "./QuestionCategoriesManagment";
+import Box from "../../components/ui/Box";
+import QuestionCategoriesManagment from "./components/QuestionCategoriesManagment";
 import { motion } from "framer-motion";
-import Modal from "../../../components/ui/Modal";
-import AddQuestionForm from "./AddQuestionForm";
-import { opacityAnimationProps } from "../animation";
+import Modal from "../../components/ui/Modal";
+import { opacityAnimationProps } from "./animation";
+import AddQuestionForm from "./components/AddQuestionForm";
 
-const QuestionManagement = () => {
+const ResearchQuestionManagmentPage = () => {
   /* ────────────── STATE  ────────────── */
   const [questionStageCategoryData, setQuestionStageCategoryData] = useState<{
     StageId: number;
@@ -22,7 +22,6 @@ const QuestionManagement = () => {
     stageCategoryId: number,
     title: string
   ) {
-    console.log("stageCategoryId: " + stageCategoryId);
     setQuestionStageCategoryData({
       StageId: StageId,
       QuestionStageCategoryId: stageCategoryId,
@@ -42,7 +41,7 @@ const QuestionManagement = () => {
     <Box>
       <QuestionCategoriesManagment
         onFinishCollectingCategoryData={onFinishCollectingCategoryData}
-        HandleResetQuestionStageCategoryData={
+        HandleResetQuestionResearchCategoryData={
           HandleResetQuestionStageCategoryData
         }
       />
@@ -74,4 +73,4 @@ const QuestionManagement = () => {
   );
 };
 
-export default QuestionManagement;
+export default ResearchQuestionManagmentPage;

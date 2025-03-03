@@ -24,7 +24,7 @@ const Modal = ({ isOpen, children, title, onClose, okCancel }: IProps) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="min-w-96 fixed inset-0 z-50 h-screen w-screen"
+          className="min-w-96 fixed inset-0 z-30 h-screen w-screen"
           initial={{
             opacity: 0,
           }}

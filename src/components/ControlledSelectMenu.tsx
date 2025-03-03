@@ -40,6 +40,9 @@ const ControlledSelectMenu = <T extends FieldValues>({
 
         return (
           <SelectMenu<number>
+            styles={{
+              menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+            }}
             {...field}
             isMulti={isMulti}
             closeMenuOnSelect={isMulti ? false : true} // ✅ Keeps dropdown open on selection

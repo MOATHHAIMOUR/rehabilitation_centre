@@ -9,7 +9,7 @@ import { useGetAllAnswerTypesQuery } from "../../../store/services/answerTypeApi
 import AddDebendQuestion from "./AddDebendQuestion";
 import AddMainQuestion from "./AddMainQuestion";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AddNewQuestionSchema, AddNewQuestionSchemaType } from "../validation";
+import { AddNewQuestionSchema, AddNewQuestionSchemaType } from "../types";
 
 interface IPops {
   onCancel: () => void;
@@ -44,36 +44,39 @@ const AddQuestionForm = ({ onCancel, StageCategoryId, StageId }: IPops) => {
     shouldUnregister: true,
   });
 
+  console.log(errors);
+
   const fullErrors: FieldErrors<
     Extract<AddNewQuestionSchemaType, { hasDebenQuestion: true }>
   > = errors;
 
   /* ────────────── HANDLERS  ────────────── */
   const onSubmit: SubmitHandler<AddNewQuestionSchemaType> = async (data) => {
-    console.log("sumited");
+    console.log(data);
     try {
       let debendQ: IAddNewQuestion | null = null;
-      console.log("debendQName: " + Object.entries(data));
       if (data?.hasDebenQuestion) {
         debendQ = {
-          stageId: StageId,
-          nameAr: data.debendQuestion.nameAr.trim(),
+          isAnswerRequired: data.debendQuestion.isDebReuired,
+          researchTypeId: StageId,
+          questionText: data.debendQuestion.nameAr.trim(),
           answerTypeId: data.debendQuestion.answerTypeId,
           choices:
             data.debendQuestion.choices?.map((p) => p.value.trim()) ?? null,
           parentQuestionId: null,
-          stageCategoryId: StageCategoryId,
+          researchCategoryId: StageCategoryId,
           debendQuestion: null,
           whenToShowQuestion: data.debendQuestion.whenToDebShowQuestion ?? null,
         };
       }
       const addNewQ: IAddNewQuestion = {
-        stageId: StageId,
-        nameAr: data.nameAr.trim(),
+        researchTypeId: StageId,
+        isAnswerRequired: data.isMainReuired,
+        questionText: data.nameAr.trim(),
         answerTypeId: data.answerTypeId,
         choices: data.choices?.map((p) => p.value.trim()) ?? null,
         parentQuestionId: 0,
-        stageCategoryId: StageCategoryId,
+        researchCategoryId: StageCategoryId,
         debendQuestion: debendQ,
         whenToShowQuestion: null,
       };
@@ -103,6 +106,7 @@ const AddQuestionForm = ({ onCancel, StageCategoryId, StageId }: IPops) => {
           errors={fullErrors}
           setValue={setValue}
         />
+
         <AddDebendQuestion
           answerTypeData={answerTypeData}
           control={control}

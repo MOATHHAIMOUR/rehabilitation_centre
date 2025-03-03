@@ -6,6 +6,9 @@ import {
   UseFormUnregister,
   useWatch,
 } from "react-hook-form";
+import { AnimatePresence, motion } from "framer-motion";
+import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
+
 import ControlledSelectMenu from "../../../components/ControlledSelectMenu";
 import ControlledRadioButton from "../../../components/ControlledRadioButton";
 import Box from "../../../components/ui/Box";
@@ -13,18 +16,10 @@ import CustomTextInput from "../../../components/ui/CustomTextInput";
 import { EnumAnswerType } from "../../question-management/enums";
 import { TResearchInfoSchema } from "../types/researchInfoSchema";
 import QuestionNotes from "./QuestionNotes";
-import { AnimatePresence, motion } from "framer-motion";
 import { opacityAnimationProps } from "../../question-management/animation";
-import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 
 interface QuestionRendererProps {
-  q: {
-    questionId: number;
-    nameAr: string;
-    isRequired: boolean;
-    answerTypeId: EnumAnswerType;
-    questionsChoices?: { choiceName: string; questionChoiceId: number }[];
-  };
+  q: TResearchInfoSchema["questions"][0];
   control: Control<TResearchInfoSchema>;
   errors: FieldErrors<TResearchInfoSchema>;
   register: UseFormRegister<TResearchInfoSchema>;
@@ -42,109 +37,108 @@ const QuestionRenderer = ({
   register,
   unregister,
 }: QuestionRendererProps) => {
-  /* ────────────── REACT-HOOk-FORM  ────────────── */
-
   const isQHasNotes = useWatch({
     control,
     name: `${namePrefix}.isHasNotes` as Path<TResearchInfoSchema>,
   });
 
+  console.log("isQHasNotes");
+  console.log(isQHasNotes);
+
   return (
-    <Box
-      key={q.questionId}
-      className="mb-8 p-6 rounded-md shadow-md bg-gray-100"
-    >
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">{q.nameAr}</h3>
-      {(() => {
-        // Question Render
-        switch (q.answerTypeId) {
-          case EnumAnswerType.SelecetMenuWithOneAnswer:
-            return (
-              <ControlledSelectMenu
-                control={control}
-                name={`${namePrefix}.answer` as Path<TResearchInfoSchema>}
-                options={
-                  q.questionsChoices?.map((qc) => ({
-                    label: qc.choiceName,
-                    value: qc.questionChoiceId,
-                  })) ?? []
-                }
-                label={q.nameAr}
-              />
-            );
-
-          case EnumAnswerType.TextAnswer:
-            return (
-              <CustomTextInput
-                label=""
-                placeholder="أدخل إجابتك هنا"
-                {...register(
-                  `${namePrefix}.answer` as Path<TResearchInfoSchema>
-                )} // ✅ Fix: Register answer field
-              />
-            );
-
-          case EnumAnswerType.Binery:
-            return (
-              <div className="flex items-center gap-4">
-                {index !== undefined && (
-                  <span className="text-white border-2 p-2 border-white h-10 w-10 rounded-full text-xl font-semibold bg-neutral-950 flex justify-center items-center ">
-                    {index + 1}
-                  </span>
-                )}
-                <ControlledRadioButton
+    <Box className="mb-10 p-6 rounded-lg shadow-lg bg-white border border-gray-300">
+      {/* Question Text */}
+      <h3 className="text-xl font-bold text-gray-900 mb-4">{q.questionText}</h3>
+      <input
+        type="hidden"
+        {...register(`${namePrefix}.isRequired` as Path<TResearchInfoSchema>)}
+        value={q.isRequired ? "yes" : "no"}
+      />{" "}
+      <input
+        type="hidden"
+        {...register(`${namePrefix}.answerType` as Path<TResearchInfoSchema>)}
+        value={q.answerType}
+      />
+      {/* Question Input Area */}
+      <div className="mb-6">
+        {(() => {
+          switch (q.answerType) {
+            case EnumAnswerType.SelecetMenuWithOneAnswer:
+              return (
+                <ControlledSelectMenu
                   control={control}
                   name={`${namePrefix}.answer` as Path<TResearchInfoSchema>}
-                  label={q.nameAr}
-                  textClassName=""
+                  options={q?.questionChoices ?? []}
+                  label=""
                 />
-              </div>
-            );
+              );
 
-          case EnumAnswerType.MultiSelecetMenuWithMultibleAnswer:
-            return (
-              <ControlledSelectMenu
-                control={control}
-                isMulti={true}
-                name={`${namePrefix}.answer` as Path<TResearchInfoSchema>}
-                options={
-                  q.questionsChoices?.map((qc) => ({
-                    label: qc.choiceName,
-                    value: qc.questionChoiceId,
-                  })) ?? []
-                }
-                label={q.nameAr}
-              />
-            );
+            case EnumAnswerType.TextAnswer:
+              return (
+                <CustomTextInput
+                  label=""
+                  placeholder="أدخل إجابتك هنا"
+                  {...register(
+                    `${namePrefix}.answer` as Path<TResearchInfoSchema>
+                  )}
+                />
+              );
 
-          default:
-            return <p className="text-red-500">❌ نوع السؤال غير معروف</p>;
-        }
-        //Other hidden prop
-      })()}
-      {/* ✅ Hidden Inputs for Non-Editable Fields */}
-      <>
-        <input
-          type="hidden"
-          {...register(`${namePrefix}.questionId` as Path<TResearchInfoSchema>)}
-          value={q.questionId}
-        />
-        <input
-          type="hidden"
-          {...register(`${namePrefix}.answerType` as Path<TResearchInfoSchema>)}
-          value={q.answerTypeId}
-        />
-        <input
-          type="hidden"
-          {...register(`${namePrefix}.isRequired` as Path<TResearchInfoSchema>)}
-          value={q.isRequired ? "yes" : "no"}
-        />
-      </>
+            case EnumAnswerType.Binery:
+              return (
+                <div className="flex items-center gap-6">
+                  <ControlledRadioButton
+                    control={control}
+                    name={`${namePrefix}.answer` as Path<TResearchInfoSchema>}
+                    label=""
+                    textClassName=""
+                  />
+                </div>
+              );
 
-      {/* Notes  */}
+            case EnumAnswerType.MultiSelecetMenuWithMultibleAnswer:
+              return (
+                <ControlledSelectMenu
+                  control={control}
+                  isMulti
+                  name={`${namePrefix}.answer` as Path<TResearchInfoSchema>}
+                  options={q.questionChoices ?? []}
+                  label=""
+                />
+              );
+
+            default:
+              return <p className="text-red-600">❌ نوع السؤال غير معروف</p>;
+          }
+        })()}
+      </div>
+      {/* Hidden Inputs for Non-Editable Fields */}
+      {/* <input
+        type="hidden"
+        {...register(`${namePrefix}.questionId` as Path<TResearchInfoSchema>)}
+        value={q.questionId}
+      />
+      <input
+        type="hidden"
+        {...register(`${namePrefix}.questionText` as Path<TResearchInfoSchema>)}
+        value={q.questionText}
+      />
+
+
+      <input
+        type="hidden"
+        {...register(`${namePrefix}.answerType` as Path<TResearchInfoSchema>)}
+        value={q.answerType}
+      />
+      <input
+        type="hidden"
+        {...register(`${namePrefix}.isRequired` as Path<TResearchInfoSchema>)}
+        value={q.isRequired ? "yes" : "no"}
+      /> */}
+      {/* Notes Toggle */}
       <motion.label
         {...opacityAnimationProps}
-        className="mt-8 mb-4 flex gap-2 items-center cursor-pointer"
+        className="mt-6 mb-4 flex items-center gap-3 cursor-pointer hover:bg-gray-100 rounded-md px-2 py-1 transition-all"
       >
         <input
           type="checkbox"
@@ -152,34 +146,32 @@ const QuestionRenderer = ({
           className="hidden"
         />
         {isQHasNotes ? (
-          <CiCircleMinus size={40} className="text-red-500" />
+          <CiCircleMinus size={36} className="text-red-500" />
         ) : (
-          <CiCirclePlus size={40} className="text-green-500" />
+          <CiCirclePlus size={36} className="text-green-500" />
         )}
-        <p
-          className={`text-xl font-semibold transition-all duration-300 ${
-            isQHasNotes
-              ? "text-red-500 hover:text-red-700"
-              : "text-green-500 hover:text-green-700"
-          } cursor-pointer`}
-        >
-          {isQHasNotes ? "❌ إلغاء الملاحظات" : "📝 إضافة ملاحظات"}
+        <p className="text-lg font-medium">
+          {isQHasNotes ? "إلغاء الملاحظات" : "إضافة ملاحظات"}
         </p>
       </motion.label>
+      {/* Notes Section */}
       <AnimatePresence>
         {isQHasNotes && (
-          <QuestionNotes
-            register={register}
-            errors={errors}
-            namePrefix={`${namePrefix}.notes`}
-            unregister={unregister}
-            index={index}
-          />
+          <div className="mt-4">
+            <QuestionNotes
+              register={register}
+              errors={errors}
+              namePrefix={`${namePrefix}.notes`}
+              unregister={unregister}
+              index={index}
+            />
+          </div>
         )}
       </AnimatePresence>
-      {errors.questionsAnswers?.[index]?.answer && (
-        <p className="text-red-500">
-          {errors.questionsAnswers[index].answer.message}
+      {/* Error Message */}
+      {errors.questions?.[index]?.answer && (
+        <p className="mt-4 text-red-600 font-medium">
+          {errors.questions[index].answer.message}
         </p>
       )}
     </Box>

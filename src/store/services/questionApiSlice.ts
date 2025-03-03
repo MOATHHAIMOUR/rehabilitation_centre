@@ -20,15 +20,39 @@ export interface IQuestion {
 }
 
 export interface IAddNewQuestion {
-  nameAr: string;
-  stageId: number;
-  stageCategoryId: number;
+  questionText: string;
+  researchTypeId: number;
+  researchCategoryId: number;
   parentQuestionId: number | null;
   answerTypeId: EnumAnswerType;
+  isAnswerRequired: boolean;
   choices: string[] | null;
   debendQuestion: IAddNewQuestion | null;
   whenToShowQuestion: EnumWhenToShowQuestion | null;
 }
+
+// * Start Research Type View
+export interface IResearchQuestionView {
+  researchCategoryNameEn: string;
+  researchCategoryNameAr: string;
+  researchCategoryId: number;
+  researchQuestions: IResearchQuestion[];
+}
+
+export interface IResearchQuestion {
+  researchQuestionId: number;
+  questionText: string;
+  whenToShowQuestion: number | null;
+  isAnswerRequired: boolean;
+  answerTypeId: number;
+  questionsChoices: IResearchQuestionChoice[];
+}
+
+export interface IResearchQuestionChoice {
+  researchQuestionChoiceId: number;
+  choiceName: string;
+}
+// * End Research Type View
 
 export const questionApiSlice = createApi({
   reducerPath: "questionApiSlice",
@@ -50,6 +74,16 @@ export const questionApiSlice = createApi({
       }),
     }),
 
+    getResearchQuestionsByResearchTypeId: builder.query<
+      IGenericApiResponse<IResearchQuestionView[]>,
+      number
+    >({
+      query: (researchTypeId) => ({
+        url: `/GetResearchQuestions?ResearchTypeId=${researchTypeId}`,
+        method: "GET",
+      }),
+    }),
+
     getQuestionByStageCategoryId: builder.query<
       IGenericApiResponse<IQuestion[]>,
       number
@@ -64,5 +98,6 @@ export const questionApiSlice = createApi({
 
 export const {
   useAddNewQuestionMutation,
+  useLazyGetResearchQuestionsByResearchTypeIdQuery,
   useGetQuestionByStageCategoryIdQuery,
 } = questionApiSlice;

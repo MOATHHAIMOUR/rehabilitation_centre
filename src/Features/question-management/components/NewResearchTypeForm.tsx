@@ -1,37 +1,23 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import CustomTextInput from "../../../components/ui/CustomTextInput";
-import { INewStageType } from "../interfaces";
-import CustomTextArea from "../../../components/ui/CustomTextArea";
-import { useAddNewStageMutation } from "../../../store/services/stageSliceApi";
-import { toast } from "react-toastify";
 import Button from "../../../components/ui/Button";
+import { INewResearchType } from "../../../store/services/researchTypeSliceApi";
+import useAddResearchType from "../hooks/useAddResearchType";
 
 interface IPops {
   onCancel: () => void;
 }
-const NewStageTypeForm = ({ onCancel }: IPops) => {
-  const toastId = "addNewStageSuccess";
-
+const NewResearchTypeForm = ({ onCancel }: IPops) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<INewStageType>({});
+  } = useForm<INewResearchType>({});
 
-  const [addNewStageType, { isLoading }] = useAddNewStageMutation();
+  const { addResearchType, isLoading } = useAddResearchType();
 
-  const onSubmit: SubmitHandler<INewStageType> = async (data) => {
-    try {
-      await addNewStageType(data).unwrap(); // Unwrap the promise to properly track state
-      toast.success("تم إضافة نوع البحث بنجاح", {
-        toastId,
-        hideProgressBar: true,
-        autoClose: 3000,
-        position: "top-right",
-      });
-    } catch {
-      toast.error("Operation Failed. Please try again.");
-    }
+  const onSubmit: SubmitHandler<INewResearchType> = async (data) => {
+    addResearchType(data);
   };
 
   return (
@@ -42,19 +28,35 @@ const NewStageTypeForm = ({ onCancel }: IPops) => {
       {/* Work Sector Type */}
       <div className="mb-4">
         <CustomTextInput
-          {...register("stageNameAr")}
+          {...register("researchTypeNameAr")}
           name="stageNameAr"
           isRequired={true}
-          label="إسم نوع البحث / الدراسة"
+          label="  إسم نوع البحث / الدراسة باللغة العربية"
         />
-        {errors.stageNameAr && (
-          <p className="text-red-500 text-sm">{errors.stageNameAr?.message}</p>
+        {errors.researchTypeNameAr && (
+          <p className="text-red-500 text-sm">
+            {errors.researchTypeNameAr?.message}
+          </p>
         )}
       </div>
 
-      {/* Work Field */}
       <div className="mb-4">
-        <CustomTextArea
+        <CustomTextInput
+          {...register("researchTypeNameEn")}
+          name="stageNameAr"
+          isRequired={true}
+          label="إسم نوع البحث / الدراسة باللغة الإنجليزية"
+        />
+        {errors.researchTypeNameEn && (
+          <p className="text-red-500 text-sm">
+            {errors.researchTypeNameAr?.message}
+          </p>
+        )}
+      </div>
+
+      {/*  Field */}
+      <div className="mb-4">
+        {/* <CustomTextArea
           {...register("stageDescriptionAr")}
           name="stageDescriptionAr"
           isRequired={true}
@@ -64,18 +66,18 @@ const NewStageTypeForm = ({ onCancel }: IPops) => {
           <p className="text-red-500 text-sm">
             {errors.stageDescriptionAr?.message}
           </p>
-        )}
+        )} */}
       </div>
 
       {/* Submit Button */}
       <div className="flex gap-4">
-        <button
+        <Button
           onClick={onCancel}
           type="button"
           className="mt-4 w-full bg-red-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
         >
           إغلاق
-        </button>
+        </Button>
         {/* Submit Button */}
         <Button
           isLoading={isLoading}
@@ -89,4 +91,4 @@ const NewStageTypeForm = ({ onCancel }: IPops) => {
   );
 };
 
-export default NewStageTypeForm;
+export default NewResearchTypeForm;
