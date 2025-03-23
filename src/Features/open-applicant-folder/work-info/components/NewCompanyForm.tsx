@@ -1,8 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { INewCompanyInfo } from "../../interface";
 import { TNewCompanSchema } from "../types/newCompanySchema";
-import ControlledSelectMenu from "../../../../components/ControlledSelectMenu";
 import CustomTextInput from "../../../../components/ui/CustomTextInput";
+import { ControlledSelectMenu } from "../../../../components/ControlledSelectMenu";
 
 interface IPops {
   onCancel: () => void;
@@ -16,7 +15,7 @@ const NewCompanyForm = ({ onCancel }: IPops) => {
     formState: { errors },
   } = useForm<TNewCompanSchema>();
 
-  const onSubmit: SubmitHandler<INewCompanyInfo> = (data) => {
+  const onSubmit: SubmitHandler = (data) => {
     console.log("New Company Data:", data);
     alert("Company added successfully!");
     // Handle API call or further processing here

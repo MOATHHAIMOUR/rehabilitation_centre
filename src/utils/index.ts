@@ -104,3 +104,7 @@ export function getCookie(name: string): string | null {
   }
   return null;
 }
+
+export function cn(...inputs: (string | undefined | null | boolean)[]) {
+  return inputs.filter(Boolean).join(" ");
+}

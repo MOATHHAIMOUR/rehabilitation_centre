@@ -16,15 +16,6 @@ const ApplicantPersonalInfoPage = () => {
     navigate("/add-applicant/classification-info");
   };
 
-  // const onError = (errors: any) => {
-  //   console.error("Form Validation Errors:", errors);
-
-  //   // Optional: Log each error field separately
-  //   Object.keys(errors).forEach((field) => {
-  //     console.error(`❌ Error in "${field}":`, errors[field].message);
-  //   });
-  // };
-
   return (
     <Form
       onSubmit={handleSubmit}

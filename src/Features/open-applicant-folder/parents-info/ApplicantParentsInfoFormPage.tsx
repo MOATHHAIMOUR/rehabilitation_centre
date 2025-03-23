@@ -19,10 +19,6 @@ const ApplicantParentsInfoFormPage = () => {
     navigate("/next-step"); // Redirect to the next step
   }
 
-  // const onError = (errors: any) => {
-  //   console.error("❌ Validation Errors:", errors);
-  // };
-
   return (
     <Form
       onSubmit={handleSubmit}
@@ -48,14 +44,19 @@ const FormContent = () => {
   } = useFormContext<TApplicantParentsInfoSchema>();
 
   return (
-    <Box className="mt-10 flex flex-col gap-10">
+    <Box className="flex flex-col gap-10">
+      <div className="col-span-full border-b border-gray-300 pb-4">
+        <h2 className="text-lg font-semibold text-gray-800">
+          المعلومات الوالدين
+        </h2>
+      </div>
       <FatherInfoComponent
         unregister={unregister}
         control={control}
         register={register}
         errors={errors}
       />
-      <hr className="border-t-4 border-gray-900" /> {/* Solid line */}
+      <hr className="border-t-2 border-gray-300" /> {/* Solid line */}
       <MotherInfoComponent
         unregister={unregister}
         control={control}

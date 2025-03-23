@@ -1,9 +1,9 @@
 import { useFormContext, useWatch } from "react-hook-form";
 import { TApplicantInsuranceInfoSchema } from "../types/applicantInsuranceInfoSchema";
 import { AnimatePresence, motion } from "framer-motion"; // Corrected import
-import ControlledSelectMenu from "../../../../components/ControlledSelectMenu";
 import Box from "../../../../components/ui/Box";
 import CustomTextArea from "../../../../components/ui/CustomTextArea";
+import { ControlledSelectMenu } from "../../../../components/ControlledSelectMenu";
 
 const InsuranceInfoFormContent = () => {
   /* ────────────── REACT HOOK FORM ────────────── */
@@ -21,6 +21,9 @@ const InsuranceInfoFormContent = () => {
 
   return (
     <Box>
+      <div className="col-span-full border-b border-gray-300 pb-4">
+        <h2 className="text-lg font-semibold text-gray-800">معلومات التأمين</h2>
+      </div>
       {/* هل المراجع مغطى في التأمين الصحي */}
       <ControlledSelectMenu
         control={control}

@@ -1,5 +1,4 @@
 import { useFormContext } from "react-hook-form";
-import ControlledSelectMenu from "../../../../components/ControlledSelectMenu";
 import Box from "../../../../components/ui/Box";
 import CustomTextArea from "../../../../components/ui/CustomTextArea";
 import {
@@ -7,6 +6,7 @@ import {
   useLazyGetMinistryEducationLevelsByIdQuery,
 } from "../../../../store/services/ministryEducationApi";
 import { TApplicantEducationInfoSchema } from "../types/applicantClassificationInfoSchema";
+import { ControlledSelectMenu } from "../../../../components/ControlledSelectMenu";
 
 const ApplicantEducationInfoFormContent = () => {
   /* ────────────── STORE ────────────── */
@@ -44,6 +44,11 @@ const ApplicantEducationInfoFormContent = () => {
 
   return (
     <Box className="grid grid-cols-1 md:grid-cols-1 gap-8">
+      <div className="col-span-full border-b border-gray-300 pb-4">
+        <h2 className="text-lg font-semibold text-gray-800">
+          المعلومات التعليمية
+        </h2>
+      </div>
       {/* نوع الوزارة */}
       <ControlledSelectMenu
         control={control}

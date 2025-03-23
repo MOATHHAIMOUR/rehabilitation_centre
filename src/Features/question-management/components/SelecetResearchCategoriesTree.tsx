@@ -100,9 +100,6 @@ const SelecetResearchCategoriesTree = ({
       ResearchCategoryId
     );
 
-    console.log("ResearchCategoryId");
-    console.log(ResearchCategoryId);
-
     if (currentSelectedMenu?.childrenResearchCategories?.length ?? 0 > 0) {
       // menu is already exists
       const menu = SelectMenusData.find((m) => m.key === menuKey);
@@ -157,9 +154,6 @@ const SelecetResearchCategoriesTree = ({
       parentResearchCategoryId,
       newCategoryResult
     );
-
-    console.log("new Tree");
-    console.log(newTree);
 
     // get the parentSelectedVal
     const parentSelectedVal = findResearchCategoryByResearchCategoryId(

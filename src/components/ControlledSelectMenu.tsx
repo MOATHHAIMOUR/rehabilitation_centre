@@ -1,91 +1,137 @@
 import {
-  Control,
-  Controller,
-  FieldError,
-  FieldValues,
-  Path,
-} from "react-hook-form";
-import { components } from "react-select";
-import SelectMenu, { Option } from "./ui/SelectMenu";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import { FiSearch } from "react-icons/fi";
+import { useState } from "react";
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
 
-interface IProps<T extends FieldValues> {
-  name: Path<T>;
-  control: Control<T>;
-  options: Option<number>[]; // Options with generic value type
+interface Option<TValue extends string | number> {
   label: string;
-  error?: FieldError | undefined;
-  isRequired?: boolean;
-  isMulti?: boolean; // Optional prop for multi-select mode
-  externalOnChange?: (val: number | number[] | null) => void; // Support multi-select change events
-  components?: Partial<typeof components>;
+  value: TValue;
 }
 
-const ControlledSelectMenu = <T extends FieldValues>({
+interface ControlledSelectMenuProps<
+  TFieldValues extends FieldValues,
+  TValue extends string | number = string
+> {
+  name: Path<TFieldValues>;
+  control: Control<TFieldValues>;
+  options: Option<TValue>[];
+  label?: string;
+  placeholder?: string;
+  className?: string;
+  direction?: "rtl" | "ltr";
+  width?: string;
+  height?: string;
+  disabled?: boolean;
+  filterRef?: React.RefObject<HTMLDivElement>; // Add filterRef prop
+}
+
+export const ControlledSelectMenu = <
+  TFieldValues extends FieldValues,
+  TValue extends string | number = string
+>({
   name,
   control,
   options,
   label,
-  error,
-  isRequired = false,
-  isMulti = false,
-  externalOnChange,
-  components: customComponents = {}, // ✅ Ensure a default object
-}: IProps<T>) => {
+  placeholder = "اختر خيارا",
+  className = "",
+  direction = "rtl",
+  width = "w-full",
+  height = "h-[32px]",
+  disabled = false,
+}: ControlledSelectMenuProps<TFieldValues, TValue>) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field }) => {
-        console.log("Field Value (Before Rendering):", field.value);
+      render={({ field }) => (
+        <div
+          data-select-portal="true"
+          className={`space-y-1 ${className}`}
+          dir={direction}
+        >
+          {label && (
+            <label className="block text-sm font-medium text-gray-700">
+              {label}
+            </label>
+          )}
 
-        return (
-          <SelectMenu<number>
-            styles={{
-              menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-            }}
-            {...field}
-            isMulti={isMulti}
-            closeMenuOnSelect={isMulti ? false : true} // ✅ Keeps dropdown open on selection
-            components={{ ...components, ...customComponents }} // ✅ Merge default & custom components
-            menuPortalTarget={document.body} // ✅ Prevents dropdown from closing
-            value={
-              isMulti
-                ? options.filter((option) =>
-                    Array.isArray(field.value)
-                      ? field.value.includes(option.value) // Ensures correct filtering
-                      : false
-                  )
-                : options.find((option) => option.value === field.value) ?? null
-            }
-            onChange={(selected) => {
-              console.log("Selected Values (Before Mapping):", selected);
+          <Select
+            disabled={disabled}
+            onValueChange={(val) => field.onChange(val as TValue)}
+            value={field.value === undefined ? "" : String(field.value)}
+          >
+            <SelectTrigger
+              className={`${width} ${height} rounded-md border border-gray-300 !bg-white text-black px-3 py-1 text-sm flex ${
+                direction === "rtl" ? "flex-row-reverse" : ""
+              }`}
+            >
+              <SelectValue placeholder={placeholder} />
+            </SelectTrigger>
 
-              if (isMulti) {
-                // Ensure `selected` is an array of objects with `.value`
-                const values =
-                  Array.isArray(selected) && selected.length > 0
-                    ? selected.map((option) => option)
-                    : [];
+            {/* Use Portal to render SelectContent inside filterRef */}
 
-                console.log("Mapped Values (After Fix):", values);
+            <SelectContent
+              className="z-[1000] bg-white rounded-md shadow-lg border border-gray-200"
+              sideOffset={5}
+              data-select-portal="true" // Add data-select-portal attribute
+            >
+              {/* Search Input */}
+              <div
+                className={`flex items-center px-2 py-2 border-b border-gray-200 gap-2 ${
+                  direction === "rtl" ? "flex-row-reverse text-right" : ""
+                }`}
+                data-select-portal="true" // Add data-select-portal attribute
+              >
+                <FiSearch className="text-gray-400" />
+                <input
+                  type="text"
+                  placeholder={direction === "rtl" ? "ابحث..." : "Search..."}
+                  className={`w-full text-sm border-none outline-none placeholder-gray-400 bg-transparent ${
+                    direction === "rtl" ? "text-right" : ""
+                  }`}
+                  value={searchTerm}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                  }}
+                  onKeyDown={(e) => e.stopPropagation()}
+                  data-select-portal="true" // Add data-select-portal attribute
+                />
+              </div>
 
-                field.onChange(values); // ✅ Correctly updates form state
-                externalOnChange?.(values);
-              } else {
-                // Single-select: Extract the value or pass undefined if no selection
-                field.onChange(selected ? selected : null);
-                externalOnChange?.(selected ? selected : null);
-              }
-            }}
-            isRequired={isRequired}
-            label={label}
-            options={options}
-            error={error?.message ?? ""}
-          />
-        );
-      }}
+              {/* Options */}
+              {filteredOptions.length > 0 ? (
+                filteredOptions.map((option) => (
+                  <SelectItem
+                    key={String(option.value)}
+                    value={String(option.value)}
+                    className="px-3 h-[30px] py-1.5 text-sm cursor-pointer hover:bg-teal-100 hover:text-teal-900 transition rounded"
+                    data-select-portal="true" // Add data-select-portal attribute
+                  >
+                    {option.label}
+                  </SelectItem>
+                ))
+              ) : (
+                <div className="px-3 py-2 text-sm text-gray-500">
+                  {direction === "rtl" ? "لا توجد نتائج" : "No results found"}
+                </div>
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
     />
   );
 };
-
-export default ControlledSelectMenu;

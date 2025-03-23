@@ -33,27 +33,36 @@ export const registerSchema = z
       .min(2, "يجب أن يكون الاسم الأخير على الأقل حرفين")
       .max(15, "يجب ألا يزيد الاسم الأخير عن 15 حرفاً"),
 
+    isPhoneValied: z.boolean(),
     phone: z
       .string()
+      .min(1, "رقم الهاتف مطلوب")
       .refine(
         (val) => validator.isMobilePhone(val, "ar-SA"),
         "يجب أن يكون رقم الجوال بصيغة صحيحة داخل المملكة العربية السعودية."
       ),
 
-    isOTPSent: z.boolean(),
+    isOTPSent: z.boolean().default(false),
 
     isPhoneConfirmed: z.boolean().refine((val) => val === true, {
       message: "يجب تاكيد رقم الهاتف أولاً",
     }),
 
-    email: z.string().email("البريد الإلكتروني غير صالح"),
-
-    password: z
+    email: z
       .string()
-      .min(8, "كلمة المرور يجب أن تكون 8 أحرف على الأقل")
-      .max(30, "كلمة المرور لا يجب أن تتجاوز 30 حرفاً"),
+      .optional()
+      .refine(
+        (d) => !d || z.string().email().safeParse(d).success,
+        "البريد الإلكتروني غير صالح"
+      ),
 
-    confirmPassword: z.string(),
+    password: z.string().min(1, "الرجاء إدخال كلمة المرور"),
+    isPasswordValied: z.boolean(),
+    confirmPassword: z.string().min(1, "الرجاء تأكيد كلمة المرور"),
+  })
+  .refine((data) => data.isPhoneConfirmed, {
+    message: "يجب تأكيد رقم الهاتف",
+    path: ["isPhoneConfirmed"],
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "كلمة المرور وتأكيدها غير متطابقين",
@@ -68,6 +77,8 @@ export const registerFormSchemaDefaultValues: TRegisterFormSchema = {
   firstName: "",
   lastName: "",
   phone: "",
+  isPasswordValied: false,
+  isPhoneValied: false,
   email: "",
   password: "",
   confirmPassword: "",

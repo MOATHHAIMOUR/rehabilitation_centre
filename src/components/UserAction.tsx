@@ -1,5 +1,11 @@
 import { ElementType, useEffect, useState } from "react";
-import { FaBell, FaFolderOpen, FaHome, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaBell,
+  FaFolderOpen,
+  FaHome,
+  FaSignOutAlt,
+  FaUserTie,
+} from "react-icons/fa";
 import { GiArchiveResearch } from "react-icons/gi";
 import { useLocation } from "react-router-dom";
 
@@ -7,13 +13,14 @@ interface IMenuItem {
   logo: ElementType;
   title: string;
 }
+import { MdAdminPanelSettings } from "react-icons/md";
 
 const sharedApplicantMenuItem = {
   logo: FaFolderOpen,
   title: "خدمة فتح ملف",
 };
 
-// Define all relevant applicant folder categories
+// Define applicant folder routes
 const applicantFolderRoutes = [
   "/applicant-folder/save-applicant/personal-info",
   "/applicant-folder/save-applicant/parent-info",
@@ -44,6 +51,20 @@ const menuItems: Record<string, IMenuItem> = {
     logo: GiArchiveResearch,
     title: "إدارة البحوث والأسئلة المرتبطة بها",
   },
+
+  "/employees/create": {
+    logo: FaUserTie,
+    title: "إضافة موظف جديد",
+  },
+  "/employees/list": {
+    logo: FaUserTie,
+    title: "قائمة الموظفين",
+  },
+
+  "/users/user-roles": {
+    logo: MdAdminPanelSettings,
+    title: "إدارة أدوار النظام",
+  },
 };
 
 function UserActions() {
@@ -56,48 +77,46 @@ function UserActions() {
   useEffect(() => {
     setLogoTitleState(menuItems[location.pathname]);
   }, [location]);
+
   const user = {
     firstName: "عامر",
     lastName: "المهدي",
     profilePic:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoq0f1tSU2b8opZaApGh5tl2FreFb52dyo6Q&s", // Replace with actual user image
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoq0f1tSU2b8opZaApGh5tl2FreFb52dyo6Q&s",
   };
 
   return (
-    <div className="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-md">
-      <div className="flex items-center gap-4">
-        {LogoTitleState?.logo && <LogoTitleState.logo size={40} />}
-        <p className="font-semibold text-xl">{LogoTitleState?.title}</p>
+    <div className="flex justify-between items-center bg-gradient-to-b from-teal-950 to-teal-800 text-white shadow-md  p-4  z-40">
+      <div className="flex items-center gap-4 text-white">
+        {LogoTitleState?.logo && <LogoTitleState.logo size={32} />}
+        <p className="font-semibold text-lg">{LogoTitleState?.title}</p>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         {/* User Profile & Greeting */}
-        <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-full shadow-sm">
+
+        <div className="flex items-center gap-3 bg-white px-3 py-1 rounded-full shadow-sm">
           <img
             src={user.profilePic}
             alt="User"
-            className="w-10 h-10 rounded-full border border-gray-300"
+            className="w-10 h-10 rounded-full border border-gray-200"
           />
-          <div className="text-right">
-            <p className="text-gray-700 font-semibold">
-              مرحبًا, {user.firstName} {user.lastName}
-            </p>
-            <p className="text-gray-500 text-sm">أهلاً وسهلاً بك!</p>
-          </div>
+          <p className="text-gray-800 text-sm font-medium">
+            مرحبًا, <span className="font-semibold">{user.firstName}</span>
+          </p>
         </div>
 
         {/* Notification Bell with Badge */}
         <div className="relative">
           <button className="flex items-center px-4 py-2 gap-2 bg-white rounded-full shadow-md hover:bg-gray-200 transition">
-            <p className="text-gray-700 font-medium">الإشعارات</p>
-            <FaBell className="text-gray-600 text-lg relative" />
+            <FaBell className="text-teal-700 text-xl relative" />
+            <span className="absolute top-1 right-1 bg-red-600 w-3 h-3 rounded-full"></span>
           </button>
-          <span className="absolute top-2 left-4 bg-red-600 w-2.5 h-2.5 rounded-full"></span>
         </div>
 
         {/* Logout Button */}
         <button className="flex items-center px-4 py-2 gap-2 bg-white rounded-full shadow-md hover:bg-gray-200 transition">
+          <FaSignOutAlt className="text-red-500 text-xl" />
           <p className="text-gray-700 font-medium">تسجيل الخروج</p>
-          <FaSignOutAlt className="mt-1 text-blue-500 text-lg" />
         </button>
       </div>
     </div>

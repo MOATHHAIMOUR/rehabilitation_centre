@@ -1,9 +1,9 @@
 import { useFormContext } from "react-hook-form";
 import Box from "../../../../components/ui/Box";
 import { TApplicantClassificationInfoSchema } from "../types/applicantClassificationInfoSchema";
-import ControlledSelectMenu from "../../../../components/ControlledSelectMenu";
 import { useGetApplicantClassficationTypesQuery } from "../../../../store/services/applicantClassificationApi";
 import CustomTextArea from "../../../../components/ui/CustomTextArea";
+import { ControlledSelectMenu } from "../../../../components/ControlledSelectMenu";
 
 const ApplicantClassificationInfoFormContent = () => {
   /* ────────────── STORE  ────────────── */
@@ -23,6 +23,11 @@ const ApplicantClassificationInfoFormContent = () => {
 
   return (
     <Box className="flex  flex-col gap-8">
+      {/* 🟢 القسم 1: المعلومات الشخصية الأساسية */}
+      <div className="col-span-full border-b border-gray-300 pb-4">
+        <h2 className="text-lg font-semibold text-gray-800">تصنيف المتقدم</h2>
+      </div>
+
       <ControlledSelectMenu
         control={control}
         name="applicantClassificationInfoId"

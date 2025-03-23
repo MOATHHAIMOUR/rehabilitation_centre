@@ -1,94 +1,72 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import Select, {
-  Props as ReactSelectProps,
-  SingleValue,
-  MultiValue,
-  ActionMeta,
-} from "react-select";
+import {
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@radix-ui/react-select";
 import Box from "./Box";
-
 export interface Option<OT> {
   label: string;
   value: OT;
 }
 
-// Extend React-Select props with additional features
-interface SelectMenuProps<OT>
-  extends Omit<ReactSelectProps<Option<OT>, boolean>, "onChange"> {
+interface SelectMenuProps<OT> {
   label: string;
   isRequired?: boolean;
-  options: Option<OT>[]; // Options with generic value type
+  options: Option<OT>[];
   error?: string;
+  value?: OT | null;
+  onChange: (value: OT | null) => void;
   className?: string;
-  onChange: (value: OT | OT[] | null) => void; // Transform the value to a simplified format
+  disabled?: boolean;
 }
 
-const SelectMenu = <OT,>({
+const SelectMenu = <OT extends string | number>({
   label,
   isRequired,
-  error,
-  className,
   options,
-  isMulti = false, // Default to single-select
+  error,
+  value,
   onChange,
-  ...props
+  className,
+  disabled = false,
 }: SelectMenuProps<OT>) => {
   return (
-    <Box className={className}>
-      {/* Label */}
-      <label htmlFor={label} className="text-right block">
-        <span className="ml-1 text-red-500">{isRequired ? "*" : ""}</span>
+    <Box className="w-full">
+      <Label className="mb-1 block text-sm text-right font-medium text-gray-700">
+        {isRequired && <span className="text-red-500 ml-1">*</span>}
         {label}
-      </label>
+      </Label>
 
-      {/* Select */}
-      <Box className=" relative mt-2  ">
-        <Select<Option<OT>, boolean>
-          options={options} // Pass options to Select
-          isMulti={isMulti} // Dynamically toggle multi-select
-          placeholder="إختر خيارا"
-          onChange={(newValue, _actionMeta: ActionMeta<Option<OT>>) => {
-            // Transform the value before calling the parent onChange
-            if (isMulti) {
-              const values =
-                (newValue as MultiValue<Option<OT>>)?.map(
-                  (option) => option.value
-                ) ?? [];
-              onChange(values);
-            } else {
-              const value =
-                (newValue as SingleValue<Option<OT>>)?.value ?? null;
+      <Select
+        value={value?.toString()}
+        onValueChange={(val) => {
+          const selected = options.find((opt) => opt.value.toString() === val);
+          onChange(selected?.value ?? null);
+        }}
+        disabled={disabled}
+      >
+        <SelectTrigger
+          className={`w-full h-[40px] rounded border border-gray-300 bg-white text-black text-sm text-right shadow-sm transition focus:border-teal-600 focus:ring-teal-500 ${className}`}
+        >
+          <SelectValue placeholder="إختر خيارا" />
+        </SelectTrigger>
 
-              onChange(value);
-            }
-          }}
-          styles={{
-            placeholder: (provided) => ({
-              ...provided,
-              textAlign: "right", // Aligns the placeholder to the right
-              direction: "rtl", // Ensures proper text direction for Arabic or right-to-left content
-            }),
-            control: (provided) => ({
-              ...provided,
-              height: isMulti ? "auto" : "33.6px", // Adjust height for multi-select
-              minHeight: "33.6px",
-              borderRadius: "8px",
-              display: "flex",
-              alignContent: "center",
-              padding: "0",
-              direction: "rtl",
-            }),
-            option: (provided) => ({
-              ...provided,
-              height: "33px",
-              display: "flex",
-              alignItems: "center",
-            }),
-          }}
-          {...props} // Pass additional props
-        />
-        {error && <p className="text-sm text-red-600">{error}</p>}
-      </Box>
+        <SelectContent dir="rtl">
+          {options.map((option) => (
+            <SelectItem
+              key={option.value.toString()}
+              value={option.value.toString()}
+            >
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      {error && <p className="text-sm text-red-600 mt-1">{error}</p>}
     </Box>
   );
 };

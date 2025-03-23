@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useGetApplicantComplaintsQuery } from "../../../../store/services/applicantComplaintApi";
 import { useFormContext } from "react-hook-form";
 import { TApplicantComplaintInfoSchema } from "../types/complaintInfoShcema";
-import ControlledSelectMenu from "../../../../components/ControlledSelectMenu";
 import Box from "../../../../components/ui/Box";
 import CustomTextArea from "../../../../components/ui/CustomTextArea";
 import Modal from "../../../../components/ui/Modal";
 import { components } from "react-select";
+import { ControlledSelectMenu } from "../../../../components/ControlledSelectMenu";
 
 const ComplaintInfoFormContent = () => {
   const { data: ApplicantComplaintsResponse } =
@@ -44,6 +44,10 @@ const ComplaintInfoFormContent = () => {
 
   return (
     <Box className="grid grid-cols-1 md:grid-cols-1 gap-8">
+      <div className="col-span-full border-b border-gray-300 pb-4">
+        <h2 className="text-lg font-semibold text-gray-800">الشكاوى</h2>
+      </div>
+
       {/* شكاوى المراجع */}
       <ControlledSelectMenu
         name="ComplaintIds"

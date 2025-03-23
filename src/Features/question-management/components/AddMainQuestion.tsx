@@ -7,7 +7,6 @@ import {
   UseFormWatch,
 } from "react-hook-form";
 import CustomTextArea from "../../../components/ui/CustomTextArea";
-import ControlledSelectMenu from "../../../components/ControlledSelectMenu";
 import { isAnswerTypeMenu } from "../utils";
 import Box from "../../../components/ui/Box";
 import { CiCirclePlus } from "react-icons/ci";
@@ -17,6 +16,7 @@ import { choicesData } from "../../../utils";
 import { hightAnimationProps, opacityAnimationProps } from "../animation";
 import { AddNewQuestionSchemaType } from "../types";
 import { CheckboxField } from "../../../components/CheckboxField";
+import { ControlledSelectMenu } from "../../../components/ControlledSelectMenu";
 
 interface IProps {
   control: Control<AddNewQuestionSchemaType>;

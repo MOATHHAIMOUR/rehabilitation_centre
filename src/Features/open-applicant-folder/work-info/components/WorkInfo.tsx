@@ -6,13 +6,13 @@ import {
   Path,
   UseFormRegister,
 } from "react-hook-form";
-import ControlledSelectMenu from "../../../../components/ControlledSelectMenu";
 import CustomTextInput from "../../../../components/ui/CustomTextInput";
 import Box from "../../../../components/ui/Box";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Modal from "../../../../components/ui/Modal";
 import NewCompanyForm from "./NewCompanyForm";
+import { ControlledSelectMenu } from "../../../../components/ControlledSelectMenu";
 
 interface WorkInfoProps<T extends FieldValues> {
   control: Control<T>;

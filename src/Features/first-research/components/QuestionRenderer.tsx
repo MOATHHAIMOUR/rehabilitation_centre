@@ -9,7 +9,6 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 
-import ControlledSelectMenu from "../../../components/ControlledSelectMenu";
 import ControlledRadioButton from "../../../components/ControlledRadioButton";
 import Box from "../../../components/ui/Box";
 import CustomTextInput from "../../../components/ui/CustomTextInput";
@@ -17,6 +16,7 @@ import { EnumAnswerType } from "../../question-management/enums";
 import { TResearchInfoSchema } from "../types/researchInfoSchema";
 import QuestionNotes from "./QuestionNotes";
 import { opacityAnimationProps } from "../../question-management/animation";
+import { ControlledSelectMenu } from "../../../components/ControlledSelectMenu";
 
 interface QuestionRendererProps {
   q: TResearchInfoSchema["questions"][0];

@@ -14,16 +14,21 @@ import ApplicantClassificationInfoPage from "../features/open-applicant-folder/c
 import ConductNewResearchPage from "../features/first-research/ConductNewResearchPage";
 import ResearshPage from "../features/first-research/ResearshPage";
 import ResearchQuestionManagmentPage from "../features/question-management/ResearchQuestionManagmentPage";
+import { EmployeeManagmentRoutes } from "./HR/employee-management/employeeManagmentRoutes";
+import HomePage from "../features/home/HomePage";
+import { usersManagmentRoutes } from "./HR/users-managment/usersManagmentRoutes";
 
 function Router() {
   return (
     <Routes>
+      <Route index path="/" element={<HomePage />} />
       <Route path="/auth/login" element={<LoginPage />} />
       <Route path="/auth/sign-up" element={<RegisterPage />} />
-
       <Route element={<DashboardLayout />}>
         <Route index path="/" element={<Navigate to={"/home"} />} />
-        <Route path="/home" element={<></>} />
+
+        {usersManagmentRoutes}
+        {EmployeeManagmentRoutes}
         {/* Applicant Folder Parent Route */}
         <Route path="/applicant-folder" element={<SaveApplicantFolderPage />}>
           {/* Redirect index route to personal info */}

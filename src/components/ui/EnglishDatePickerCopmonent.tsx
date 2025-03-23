@@ -8,9 +8,10 @@ interface IProps {
   className?: string;
   label: string;
   isRequired: boolean;
+  minDate?: Date;
   error?: string;
-  onChangeExternal?: (Date: DateObject | null) => void;
-  ExternalValue: DateObject;
+  onChangeExternal?: (Date: Date | null) => void;
+  ExternalValue?: Date;
 }
 
 const EnglishDatePickerComponent = ({
@@ -19,6 +20,7 @@ const EnglishDatePickerComponent = ({
   label,
   error,
   className,
+  minDate,
   onChangeExternal,
   ExternalValue,
 }: IProps) => {
@@ -30,11 +32,17 @@ const EnglishDatePickerComponent = ({
       </label>
       <div className="relative mt-2">
         <DatePicker
-          value={ExternalValue || ""}
+          value={ExternalValue}
+          minDate={minDate}
           onChange={(date: DateObject | null) => {
-            onChangeExternal?.(date);
+            onChangeExternal?.(date?.isValid ? date.toDate() : null);
           }}
-          style={{ height: "33px", borderRadius: "8px", width: "100%" }}
+          style={{
+            height: "33px",
+            borderRadius: "8px",
+            width: "100%",
+          }}
+          calendarPosition="bottom-right"
           containerStyle={{ width: "100%" }}
           calendar={gregorian} // Use Gregorian calendar
           locale={gregorian_ar} // Use Arabic Gregorian locale

@@ -12,7 +12,6 @@ import {
 import CustomTextInput from "../../../components/ui/CustomTextInput";
 import { choicesData } from "../../../utils";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
-import ControlledSelectMenu from "../../../components/ControlledSelectMenu";
 import { isAnswerTypeMenu } from "../utils";
 import Box from "../../../components/ui/Box";
 import {
@@ -24,6 +23,7 @@ import { WhenToShowDebenAnswerData } from "../data";
 import { AddNewQuestionSchemaType } from "../types";
 import { EnumAnswerType } from "../enums";
 import { CheckboxField } from "../../../components/CheckboxField";
+import { ControlledSelectMenu } from "../../../components/ControlledSelectMenu";
 
 interface IProps {
   control: Control<AddNewQuestionSchemaType>;

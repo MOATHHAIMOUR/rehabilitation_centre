@@ -13,6 +13,11 @@ const ApplicantWorkInfoFormContent = () => {
 
   return (
     <Box>
+      <div className="col-span-full border-b border-gray-300 pb-4">
+        <h2 className="text-lg font-semibold text-gray-800">
+          المعلومات الوظيفية
+        </h2>
+      </div>
       <WorkInfo
         control={control}
         companyIdName="companyId"

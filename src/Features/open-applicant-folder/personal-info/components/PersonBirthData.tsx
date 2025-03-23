@@ -59,11 +59,7 @@ const BirthComponent = <T extends FieldValues>({
       <Controller
         name={name}
         control={control}
-        render={({ field: { onChange, value }, fieldState: { error } }) => {
-          const dateValue =
-            typeof value === "string"
-              ? new DateObject(value)
-              : date.enDate || value;
+        render={({ field: { onChange }, fieldState: { error } }) => {
           return (
             <EnglishDatePickerComponent
               isRequired
@@ -71,9 +67,9 @@ const BirthComponent = <T extends FieldValues>({
               label="تاريخ الولادة الميلادي"
               onChangeExternal={(selectedDate) => {
                 onChange(selectedDate);
-                EnDateConverter(selectedDate);
+                if (selectedDate) EnDateConverter(new DateObject(selectedDate));
               }}
-              ExternalValue={date.enDate || new DateObject(dateValue)}
+              ExternalValue={date.enDate?.toDate()}
             />
           );
         }}

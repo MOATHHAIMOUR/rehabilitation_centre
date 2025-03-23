@@ -16,6 +16,7 @@ import { motion } from "framer-motion";
 import InfoIcon from "../InfoIcon";
 
 type FormProps<T extends FieldValues> = {
+  displayRequiredFieldAlert?: boolean;
   children: ReactNode;
   schema: ZodSchema<T>;
   title?: string;
@@ -47,13 +48,12 @@ const Form = <T extends FieldValues>({
   mode = "all",
   buttonText,
   values,
+  displayRequiredFieldAlert,
   defaultValues,
-  className,
 }: FormProps<T>) => {
   const form = useForm<T>({
     mode,
     values,
-
     defaultValues,
     resolver: zodResolver(schema),
     shouldUnregister: true,
@@ -74,52 +74,58 @@ const Form = <T extends FieldValues>({
   };
   return (
     <FormProvider {...form}>
-      {/* Info message */}
-      <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-md flex items-center gap-2 w-fit mb-4">
-        <InfoIcon />
-        <p className="text-sm font-medium">
-          الحقول المميزة بعلامة{" "}
-          <span className="text-red-500 font-bold">*</span> مطلوبة، يرجى تعبئتها
-          بعناية لضمان إكمال البيانات بشكل صحيح.
-        </p>
+      <div className="h-[100%]  flex flex-col">
+        {displayRequiredFieldAlert && (
+          <div className=" bg-blue-50 border px-8 border-blue-200 text-blue-700  py-3 rounded-md flex items-center gap-2 w-fit ">
+            <InfoIcon />
+            <p className="text-sm font-medium">
+              الحقول المميزة بعلامة{" "}
+              <span className="text-red-500 font-bold">*</span> مطلوبة، يرجى
+              تعبئتها بعناية لضمان إكمال البيانات بشكل صحيح.
+            </p>
+          </div>
+        )}
+
+        <div className="flex-grow-[1] ">
+          <form
+            className={"h-[100%]  flex flex-col gap-8"}
+            onSubmit={form.handleSubmit(onSubmit, onError)}
+          >
+            <div>{children}</div>
+
+            <motion.div layout className="flex justify-between gap-4">
+              {isMultiForm ? (
+                <>
+                  <Button
+                    disabled={IsFirstForm}
+                    onClick={handlePrev}
+                    type="button"
+                    className="bg-bg-primary hover:bg-slate-950 text-white py-2 px-10 rounded"
+                  >
+                    السابق
+                  </Button>
+
+                  <Button
+                    type="submit"
+                    className="bg-bg-primary hover:bg-slate-950 text-white py-2 px-10 rounded"
+                  >
+                    {IsLastForm ? "إرسال" : "حفظ و متابعة"}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    type="submit"
+                    className="w-full bg-teal-700 hover:bg-teal-800 text-white  py-2 rounded-md font-semibold transition-all duration-300"
+                  >
+                    {buttonText}
+                  </Button>
+                </>
+              )}
+            </motion.div>
+          </form>
+        </div>
       </div>
-      <form
-        className={className}
-        onSubmit={form.handleSubmit(onSubmit, onError)}
-      >
-        {children}
-
-        <motion.div layout className="flex justify-between my-10 gap-4">
-          {isMultiForm ? (
-            <>
-              <Button
-                disabled={IsFirstForm}
-                onClick={handlePrev}
-                type="button"
-                className="mt-4 bg-bg-primary hover:bg-slate-950 text-white py-2 px-10 rounded"
-              >
-                السابق
-              </Button>
-
-              <Button
-                type="submit"
-                className="mt-4 bg-bg-primary hover:bg-slate-950 text-white py-2 px-10 rounded"
-              >
-                {IsLastForm ? "إرسال" : "حفظ و متابعة"}
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                type="submit"
-                className="w-full py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-bg-primary  focus:outline-none"
-              >
-                {buttonText}
-              </Button>
-            </>
-          )}
-        </motion.div>
-      </form>
     </FormProvider>
   );
 };
